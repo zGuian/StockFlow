@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35506.116 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. src", "1. src", "{BFA9E855-FB2E-4989-9998-A0BF93049B24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. test", "2. test", "{7B3783A1-E056-4FBC-834D-914BF28AF22C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Presentation", "1. Presentation", "{EB31FCB7-FFDC-4C8E-B8B1-3C901E19AF73}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Application", "2. Application", "{48335ADD-DA12-463E-97CF-C4F4772EB74F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Domain", "3. Domain", "{5C21EC6B-C2E0-4167-A0EF-7CE361D68CFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Infra", "4. Infra", "{22029CB3-1DF0-421A-B948-1F96F8A00AF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowStockManager.Domain", "FlowStockManager.Domain\FlowStockManager.Domain.csproj", "{41C542D8-C89A-4285-B032-207D2411E9FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowStockManager.Infra", "FlowStockManager.Infra\FlowStockManager.Infra.csproj", "{3E90BD5D-90AC-4C0D-A316-6BE46FAE68EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowStockManager.Application", "FlowStockManager.Application\FlowStockManager.Application.csproj", "{E40958B2-C676-4D29-8A62-1480719CECA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowStockManager.WebApi", "FlowStockManager.WebApi\FlowStockManager.WebApi.csproj", "{BFDCA506-685C-430E-839B-7BA46EDB8D61}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{41C542D8-C89A-4285-B032-207D2411E9FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41C542D8-C89A-4285-B032-207D2411E9FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41C542D8-C89A-4285-B032-207D2411E9FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41C542D8-C89A-4285-B032-207D2411E9FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E90BD5D-90AC-4C0D-A316-6BE46FAE68EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E90BD5D-90AC-4C0D-A316-6BE46FAE68EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E90BD5D-90AC-4C0D-A316-6BE46FAE68EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E90BD5D-90AC-4C0D-A316-6BE46FAE68EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E40958B2-C676-4D29-8A62-1480719CECA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E40958B2-C676-4D29-8A62-1480719CECA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E40958B2-C676-4D29-8A62-1480719CECA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E40958B2-C676-4D29-8A62-1480719CECA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFDCA506-685C-430E-839B-7BA46EDB8D61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFDCA506-685C-430E-839B-7BA46EDB8D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFDCA506-685C-430E-839B-7BA46EDB8D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFDCA506-685C-430E-839B-7BA46EDB8D61}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EB31FCB7-FFDC-4C8E-B8B1-3C901E19AF73} = {BFA9E855-FB2E-4989-9998-A0BF93049B24}
+		{48335ADD-DA12-463E-97CF-C4F4772EB74F} = {BFA9E855-FB2E-4989-9998-A0BF93049B24}
+		{5C21EC6B-C2E0-4167-A0EF-7CE361D68CFC} = {BFA9E855-FB2E-4989-9998-A0BF93049B24}
+		{22029CB3-1DF0-421A-B948-1F96F8A00AF9} = {BFA9E855-FB2E-4989-9998-A0BF93049B24}
+		{41C542D8-C89A-4285-B032-207D2411E9FC} = {5C21EC6B-C2E0-4167-A0EF-7CE361D68CFC}
+		{3E90BD5D-90AC-4C0D-A316-6BE46FAE68EF} = {22029CB3-1DF0-421A-B948-1F96F8A00AF9}
+		{E40958B2-C676-4D29-8A62-1480719CECA0} = {48335ADD-DA12-463E-97CF-C4F4772EB74F}
+		{BFDCA506-685C-430E-839B-7BA46EDB8D61} = {EB31FCB7-FFDC-4C8E-B8B1-3C901E19AF73}
+	EndGlobalSection
+EndGlobal
