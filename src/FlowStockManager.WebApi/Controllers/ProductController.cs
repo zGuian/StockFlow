@@ -49,7 +49,7 @@ namespace FlowStockManager.WebApi.Controllers
         public async Task<IActionResult> RegisterProduct(CreateProductRequest productRequest)
         {
             var product = await _handler.RegisterProductAsync(productRequest);
-            return CreatedAtRoute(nameof(GetByIdProduct), product.Object.Id);
+            return CreatedAtRoute(nameof(GetByIdProduct), product.Object.First().Id);
         }
 
         [HttpPut]

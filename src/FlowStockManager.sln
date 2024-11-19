@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowStockManager.Infra.Data
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.2. Infra.CrossCutting", "4.2. Infra.CrossCutting", "{193A2069-014F-4441-9FE9-222C87B953F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowStockManager.Infra.CrossCutting", "FlowStockManager.Infra.CrossCutting\FlowStockManager.Infra.CrossCutting.csproj", "{3446AF80-9A52-48A7-8F36-9ABEA7D5718D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{1DA5374E-2304-4580-ACEC-5ECB11F3405E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DA5374E-2304-4580-ACEC-5ECB11F3405E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DA5374E-2304-4580-ACEC-5ECB11F3405E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3446AF80-9A52-48A7-8F36-9ABEA7D5718D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3446AF80-9A52-48A7-8F36-9ABEA7D5718D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3446AF80-9A52-48A7-8F36-9ABEA7D5718D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3446AF80-9A52-48A7-8F36-9ABEA7D5718D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,5 +70,6 @@ Global
 		{52DEA71E-CB1F-4D3A-8977-772019742500} = {22029CB3-1DF0-421A-B948-1F96F8A00AF9}
 		{1DA5374E-2304-4580-ACEC-5ECB11F3405E} = {52DEA71E-CB1F-4D3A-8977-772019742500}
 		{193A2069-014F-4441-9FE9-222C87B953F3} = {22029CB3-1DF0-421A-B948-1F96F8A00AF9}
+		{3446AF80-9A52-48A7-8F36-9ABEA7D5718D} = {193A2069-014F-4441-9FE9-222C87B953F3}
 	EndGlobalSection
 EndGlobal
