@@ -18,10 +18,4 @@
     <None Remove="Validation\CheckPrice\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
-    <Folder Include="Responses\ProductResponse\" />
-    <Folder Include="Responses\SupplierResponse\" />
-  </ItemGroup>
-
 </Project>

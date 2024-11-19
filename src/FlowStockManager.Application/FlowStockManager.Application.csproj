@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FlowStockManager.Domain\FlowStockManager.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
