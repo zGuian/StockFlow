@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FlowStockManager.Domain.Validation;
+namespace FlowStockManager.Domain.Validations;
 
 public class CheckPrice : ValidationAttribute
 {
