@@ -7,15 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Validation\CheckPrice\**" />
+    <Compile Remove="Validations\CheckPrice\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="Validation\CheckPrice\**" />
+    <EmbeddedResource Remove="Validations\CheckPrice\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Validation\CheckPrice\**" />
+    <None Remove="Validations\CheckPrice\**" />
   </ItemGroup>
 
 </Project>
