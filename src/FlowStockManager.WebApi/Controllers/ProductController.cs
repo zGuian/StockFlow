@@ -28,10 +28,9 @@ namespace FlowStockManager.WebApi.Controllers
         [HttpGet]
         [Route("/GetAll", Name = nameof(GetAllProduct), Order = 0)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductResponseView<Product>>))]
-
-        public async Task<IActionResult> GetAllProduct()
+        public async Task<IActionResult> GetAllProduct([FromQuery] int take = 12, [FromQuery] int skip = 0)
         {
-            return Ok(await _handler.GetProductsAsync());
+            return Ok(await _handler.GetProductsAsync(take, skip));
         }
 
         [HttpGet]
