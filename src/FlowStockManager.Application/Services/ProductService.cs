@@ -1,33 +1,41 @@
-﻿using FlowStockManager.Application.UseCases.Interfaces;
+﻿using FlowStockManager.Application.Services.Interfaces;
 using FlowStockManager.Domain.Entities;
+using FlowStockManager.Domain.Interfaces;
 
 namespace FlowStockManager.Application.Services
 {
     public class ProductService : IProductService
     {
-        public Task<IEnumerable<Product>> GetAsync()
+        private readonly IProductRepository _repository;
+
+        public ProductService(IProductRepository repository)
         {
-            throw new NotImplementedException();
+            _repository = repository;
         }
 
-        public Task<Product> GetAsync(Guid id)
+        public async Task<IEnumerable<Product>> GetAsync(int take, int skip)
         {
-            throw new NotImplementedException();
+            return await _repository.FindDataBaseAsync(take, skip);
         }
 
-        public Task<Product> RegisterAsync(Product entity)
+        public async Task<Product> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _repository.FindDataBaseAsync(id);
         }
 
-        public Task<Product> UpdateAsync(Product entity)
+        public async Task<Product> RegisterAsync(Product product)
         {
-            throw new NotImplementedException();
+            return await _repository.RegisterDataBaseAsync(product);
+        }
+
+        public async Task<Product> UpdateAsync(Product product)
+        {
+            return await _repository.UpdateDataBaseAsync(product);
         }
 
         public Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return _repository.DeleteInDataBase(id);
         }
     }
 }

@@ -10,32 +10,32 @@ namespace FlowStockManager.Application.Handlers
     public class ProductHandler : IProductHandler
     {
         private readonly IProductUseCase _useCase;
-        private readonly IProductService _service;
+        private readonly IProductService _serviceProduct;
 
         public ProductHandler(IProductUseCase useCase, IProductService service)
         {
             _useCase = useCase;
-            _service = service;
+            _serviceProduct = service;
         }
 
-        public async Task<ProductResponseView<ProductDto>> GetProductsAsync()
+        public async Task<ProductResponseView<ProductDto>> GetProductsAsync(int take, int skip)
         {
-            var products = await _service.GetAsync();
+            var products = await _serviceProduct.GetAsync(take, skip);
             var dtos = _useCase.ToIEnumerableDto(products);
             return ProductResponseView<ProductDto>.Factories.CreateResponseView(dtos);
         }
 
         public async Task<ProductResponseView<ProductDto>> GetProductsAsync(Guid id)
         {
-            var product = await _service.GetAsync(id);
+            var product = await _serviceProduct.GetAsync(id);
             var dto = _useCase.ToDto(product);
             return ProductResponseView<ProductDto>.Factories.CreateResponseView(new[] { dto });
         }
 
         public async Task<ProductResponseView<ProductDto>> RegisterProductAsync(CreateProductRequest productRequest)
         {
-            var entity = _useCase.ToEntity(productRequest);
-            entity = await _service.RegisterAsync(entity);
+            var entity = _useCase.CreateProduct(productRequest, productRequest.SupplierId);
+            entity = await _serviceProduct.RegisterAsync(entity);
             var dto = _useCase.ToDto(entity);
             return ProductResponseView<ProductDto>.Factories.CreateResponseView(new[] { dto });
         }
@@ -43,14 +43,14 @@ namespace FlowStockManager.Application.Handlers
         public async Task<ProductResponseView<ProductDto>> UpdateProductAsync(UpdateProductRequest productRequest)
         {
             var entity = _useCase.ToEntity(productRequest);
-            entity = await _service.UpdateAsync(entity);
+            entity = await _serviceProduct.UpdateAsync(entity);
             var dto = _useCase.ToDto(entity);
-            return ProductResponseView<ProductDto>.Factories.CreateResponseView(new[] {dto});
+            return ProductResponseView<ProductDto>.Factories.CreateResponseView(new[] { dto });
         }
 
         public async Task DeleteProductAsync(Guid id)
         {
-            await _service.DeleteAsync(id);
+            await _serviceProduct.DeleteAsync(id);
         }
     }
 }

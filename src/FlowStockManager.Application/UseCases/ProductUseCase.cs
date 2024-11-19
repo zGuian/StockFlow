@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FlowStockManager.Application.Services.Interfaces;
+using FlowStockManager.Application.UseCases.Interfaces;
 using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Requests.ProductRequests;
 using FlowStockManager.Infra.CrossCutting.DTOs.Products;
@@ -17,26 +17,23 @@ namespace FlowStockManager.Application.UseCases
 
         public ProductDto ToDto(Product product)
         {
-            throw new NotImplementedException();
-            //return _mapper.Map<ProductDto>(product);
+            return _mapper.Map<ProductDto>(product);
         }
 
-        public Product ToEntity(CreateProductRequest productRequest)
+        public Product CreateProduct(CreateProductRequest productRequest, Guid supplierId)
         {
-            throw new NotImplementedException();
-            //return _mapper.Map<Product>(productRequest);
+            return Product.Factories.NewProduct(productRequest.Name, productRequest.Description, productRequest.Price,
+                productRequest.StockQuantity, productRequest.MinimalStockQuantity, supplierId);
         }
 
         public Product ToEntity(UpdateProductRequest productRequest)
         {
-            throw new NotImplementedException();
-            //return _mapper.Map<Product>(productRequest);
+            return _mapper.Map<Product>(productRequest);
         }
 
         public IEnumerable<ProductDto> ToIEnumerableDto(IEnumerable<Product> products)
         {
-            throw new NotImplementedException();
-            //return _mapper.Map<IEnumerable<ProductDto>>(products);
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
     }
 }
