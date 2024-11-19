@@ -1,7 +1,12 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\ProjetosDev\\StockFlow\\FlowStockManager\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\ProjetosDev\\StockFlow\\src\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BFDCA506-685C-430E-839B-7BA46EDB8D61}|FlowStockManager.WebApi\\FlowStockManager.WebApi.csproj|c:\\projetosdev\\stockflow\\src\\flowstockmanager.webapi\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BFDCA506-685C-430E-839B-7BA46EDB8D61}|FlowStockManager.WebApi\\FlowStockManager.WebApi.csproj|solutionrelative:flowstockmanager.webapi\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 254,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Bookmark",
@@ -45,6 +50,10 @@
             },
             {
               "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
@@ -54,6 +63,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\ProjetosDev\\StockFlow\\src\\FlowStockManager.WebApi\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "FlowStockManager.WebApi\\Controllers\\ProductController.cs",
+              "ToolTip": "C:\\ProjetosDev\\StockFlow\\src\\FlowStockManager.WebApi\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "FlowStockManager.WebApi\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAcwEYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-19T16:42:00.339Z",
+              "EditorCaption": ""
             }
           ]
         },
