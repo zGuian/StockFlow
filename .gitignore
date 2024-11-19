@@ -1,0 +1,7 @@
+﻿################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+/src/.vs/FlowStockManager/DesignTimeBuild/.dtbcache.v2
+/src/.vs/FlowStockManager/v17/.suo
+/src/FlowStockManager.WebApi/obj/Debug/net8.0/FlowStockManager.WebApi.csproj.AssemblyReference.cache
