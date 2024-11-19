@@ -6,4 +6,22 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Validation\CheckPrice\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Validation\CheckPrice\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Validation\CheckPrice\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+    <Folder Include="Responses\ProductResponse\" />
+    <Folder Include="Responses\SupplierResponse\" />
+  </ItemGroup>
+
 </Project>
