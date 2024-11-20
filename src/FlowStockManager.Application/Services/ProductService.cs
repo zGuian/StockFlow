@@ -35,7 +35,7 @@ namespace FlowStockManager.Application.Services
 
         public Task DeleteAsync(Guid id)
         {
-            return _repository.DeleteInDataBase(id);
+            return _repository.DeleteInDataBaseAsync(id);
         }
     }
 }

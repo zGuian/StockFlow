@@ -47,7 +47,7 @@ namespace FlowStockManager.Infra.Data.Repositories
             return product;
         }
 
-        public async Task DeleteInDataBase(Guid id)
+        public async Task DeleteInDataBaseAsync(Guid id)
         {
             var product = await FindDataBaseAsync(id);
             _context.Products.Remove(product);
