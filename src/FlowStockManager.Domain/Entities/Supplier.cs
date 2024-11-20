@@ -12,22 +12,21 @@ public class Supplier
     
     [MaxLength(250)]
     public string? Address { get; private set; }
-    public virtual ICollection<Product> Product { get; private set; }
+    public virtual ICollection<Product> Products { get; private set; } = null!;
 
-    private Supplier(string name, string? contact, string? address, Product product)
+    private Supplier(string name, string? contact, string? address)
     {
         Id = Guid.NewGuid();
         Name = name;
         Contact = contact;
         Address = address;
-        Product.Add(product);
     }
 
     public static class Factories
     {
-        public static Supplier NewSupplier(string name, string? contact, string? address, Product product)
+        public static Supplier NewSupplier(string name, string? contact, string? address)
         {
-            return new Supplier(name, contact, address, product);
+            return new Supplier(name, contact, address);
         }
     }
 }
