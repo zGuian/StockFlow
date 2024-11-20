@@ -15,8 +15,4 @@
     <ProjectReference Include="..\FlowStockManager.Domain\FlowStockManager.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="MapperMigration\" />
-  </ItemGroup>
-
 </Project>

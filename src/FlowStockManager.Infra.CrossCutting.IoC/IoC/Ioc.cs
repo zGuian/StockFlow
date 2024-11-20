@@ -7,7 +7,9 @@ using FlowStockManager.Application.UseCases;
 using FlowStockManager.Application.UseCases.Interfaces;
 using FlowStockManager.Domain.Interfaces;
 using FlowStockManager.Infra.CrossCutting.Profiles;
+using FlowStockManager.Infra.Data.Context;
 using FlowStockManager.Infra.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,11 +19,11 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
     {
         public static IServiceCollection IoC(this IServiceCollection services, IConfiguration configuration)
         {
-            services.DependencyInject();
+            services.DependencyInject(configuration);
             return services;
         }
 
-        private static IServiceCollection DependencyInject(this IServiceCollection services)
+        private static IServiceCollection DependencyInject(this IServiceCollection services, IConfiguration configuration)
         {
             #region Handler
             services.AddScoped<IProductHandler, ProductHandler>();
@@ -42,23 +44,29 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
             #endregion Repositories
 
             #region Database
-            services.AddSingleton(ConfigurationAutoMapper);
+            services.ConfigurationDataBaseRelational(configuration);
             #endregion Database
 
             #region Utils
-            services.AddSingleton(ConfigurationAutoMapper);
+            services.ConfigurationAutoMapper();
             #endregion Utils
 
             return services;
         }
 
-        private static IMapper ConfigurationAutoMapper()
+        private static IServiceCollection ConfigurationDataBaseRelational(this IServiceCollection services, IConfiguration configuration)
+        {
+            return services.AddDbContext<AppDbContext>(opts =>
+                opts.UseNpgsql(configuration.GetConnectionString("PostgreSql")));
+        }
+
+        private static IServiceCollection ConfigurationAutoMapper(this IServiceCollection services)
         {
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new ProductMapper());
             });
-            return mappingConfig.CreateMapper();
+            return services.AddSingleton(mappingConfig.CreateMapper());
         }
     }
 }
