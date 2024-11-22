@@ -15,7 +15,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(opts =>
     {
-        opts.InjectStylesheet("/swagger-ui/custom.css");
+        opts.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        opts.SwaggerEndpoint("/swagger/v2/swagger.json", "v2");
     });
 }
 app.UseStaticFiles();

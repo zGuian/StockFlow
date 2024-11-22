@@ -6,7 +6,7 @@ using FlowStockManager.Infra.CrossCutting.DTOs.Suppliers;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
-namespace FlowStockManager.WebApi.Controllers
+namespace FlowStockManager.WebApi.Controllers.v1
 {
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
