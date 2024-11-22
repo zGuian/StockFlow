@@ -13,9 +13,29 @@ namespace FlowStockManager.Application.Services
             _repository = repository;
         }
 
-        public Task<Supplier> GetAsync(Guid supplierId)
+        public async Task<IEnumerable<Supplier>> GetAsync(int skip, int take)
         {
-            throw new NotImplementedException();
+            return await _repository.FindDataBaseAsync(skip, take);
+        }
+
+        public async Task<Supplier> GetAsync(Guid supplierId)
+        {
+            return await _repository.FindDataBaseAsync(supplierId);
+        }
+
+        public async Task<Supplier> RegisterAsync(Supplier supplier)
+        {
+            return await _repository.RegisterDataBaseAsync(supplier);
+        }
+
+        public async Task<Supplier> UpdateAsync(Supplier supplier)
+        {
+            return await _repository.UpdateDataBaseAsync(supplier);
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            await _repository.DeleteAsync(id);
         }
     }
 }

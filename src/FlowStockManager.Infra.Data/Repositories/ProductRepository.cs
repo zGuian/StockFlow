@@ -35,7 +35,11 @@ namespace FlowStockManager.Infra.Data.Repositories
         public async Task<Product> RegisterDataBaseAsync(Product product)
         {
             await _context.Products.AddAsync(product);
-            await _context.SaveChangesAsync();
+            var changedLine = await _context.SaveChangesAsync();
+            if (changedLine < 1)
+            {
+                throw new DbUpdateException("Não foi possivel realizar a alteração do produto");
+            }
             return product;
         }
 
@@ -43,7 +47,11 @@ namespace FlowStockManager.Infra.Data.Repositories
         {
             var productFound = await FindDataBaseAsync(product.Id);
             _context.Entry(productFound).CurrentValues.SetValues(product);
-            await _context.SaveChangesAsync();
+            var changedLine = await _context.SaveChangesAsync();
+            if (changedLine < 1)
+            {
+                throw new DbUpdateException("Não foi possivel realizar a alteração do produto");
+            }
             return product;
         }
 
@@ -51,7 +59,11 @@ namespace FlowStockManager.Infra.Data.Repositories
         {
             var product = await FindDataBaseAsync(id);
             _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            var changedLine = await _context.SaveChangesAsync();
+            if (changedLine < 1)
+            {
+                throw new DbUpdateException("Não foi possivel realizar a alteração do produto");
+            }
             return;
         }
     }

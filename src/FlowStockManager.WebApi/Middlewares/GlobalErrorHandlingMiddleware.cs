@@ -1,4 +1,5 @@
 ﻿using FlowStockManager.Domain.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Net;
 
@@ -56,11 +57,23 @@ namespace FlowStockManager.WebApi.Middlewares
                     message = ex.Message;
                     status = HttpStatusCode.BadRequest;
                     stackTrace = ex.StackTrace!;
+                    break;                
+                
+                case Type _ when exceptionType == typeof(DbUpdateException):
+                    message = ex.Message;
+                    status = HttpStatusCode.BadRequest;
+                    stackTrace = ex.StackTrace!;
                     break;
 
                 case Type _ when exceptionType == typeof(NotSupportedException):
                     message = ex.Message;
                     status = HttpStatusCode.InternalServerError;
+                    stackTrace = ex.StackTrace!;
+                    break;
+
+                case Type _ when exceptionType == typeof(Exception):
+                    message = ex.Message;
+                    status = HttpStatusCode.NotFound;
                     stackTrace = ex.StackTrace!;
                     break;
 

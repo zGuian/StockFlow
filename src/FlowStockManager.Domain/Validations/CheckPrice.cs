@@ -6,7 +6,7 @@ public class CheckPrice : ValidationAttribute
 {
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        var price = (decimal)value;
+        var price = (decimal)value!;
 
         if (price < 0)
         {

@@ -11,6 +11,10 @@ namespace FlowStockManager.Infra.Data.MapperMigration
             builder.ToTable("fornecedor");
             builder.HasKey(s => s.Id);
 
+
+            builder.Property(s => s.Id)
+                .ValueGeneratedNever();
+
             builder.Property(s => s.Name)
                 .IsRequired()
                 .HasMaxLength(100);

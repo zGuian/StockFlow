@@ -17,9 +17,9 @@ public class Supplier
     private Supplier(string name, string? contact, string? address)
     {
         Id = Guid.NewGuid();
-        Name = name;
-        Contact = contact;
-        Address = address;
+        Name = name.ToLower().Trim();
+        Contact = contact.ToLower().Trim();
+        Address = address.ToLower().Trim();
     }
 
     public static class Factories

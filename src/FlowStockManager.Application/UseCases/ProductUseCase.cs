@@ -23,7 +23,7 @@ namespace FlowStockManager.Application.UseCases
         public Product CreateProduct(CreateProductRequest productRequest, Guid supplierId)
         {
             return Product.Factories.NewProduct(productRequest.Name, productRequest.Description, productRequest.Price,
-                productRequest.StockQuantity, productRequest.MinimalStockQuantity, supplierId);
+                productRequest.StockQuantity, supplierId);
         }
 
         public Product ToEntity(UpdateProductRequest productRequest)

@@ -25,20 +25,19 @@ public class Product
     public static class Factories
     {
         public static Product NewProduct(string name, string? description, decimal price, int stockQuantity,
-            int minimalStockQuantity, Guid supplierId)
+            Guid supplierId)
         {
-            return new Product(name, description, price, stockQuantity, minimalStockQuantity, supplierId);
+            return new Product(name, description, price, stockQuantity, supplierId);
         }
     }
 
-    private Product(string name, string? description, decimal price, int stockQuantity, int minimalStockQuantity, Guid supplierId)
+    private Product(string name, string? description, decimal price, int stockQuantity, Guid supplierId)
     {
         Id = Guid.NewGuid();
-        Name = name;
-        Description = description;
+        Name = name.ToLower().Trim();
+        Description = description.ToLower().Trim();
         Price = price;
         StockQuantity = stockQuantity;
-        MinimalStockQuantity = minimalStockQuantity;
         SupplierId = supplierId;
     }
 }

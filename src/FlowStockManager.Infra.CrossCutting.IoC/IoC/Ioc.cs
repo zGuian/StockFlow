@@ -27,10 +27,12 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
         {
             #region Handler
             services.AddScoped<IProductHandler, ProductHandler>();
+            services.AddScoped<ISupplierHandler, SupplierHandler>();
             #endregion Handler
 
             #region UseCases
             services.AddScoped<IProductUseCase, ProductUseCase>();
+            services.AddScoped<ISupplierUseCase, SupplierUseCase>();
             #endregion UseCases
 
             #region Services
@@ -65,6 +67,7 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new ProductMapper());
+                mc.AddProfile(new SupplierMapper());
             });
             return services.AddSingleton(mappingConfig.CreateMapper());
         }

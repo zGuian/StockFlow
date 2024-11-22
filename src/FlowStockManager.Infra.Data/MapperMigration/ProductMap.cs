@@ -16,6 +16,9 @@ namespace FlowStockManager.Infra.Data.MapperMigration
                 .HasForeignKey(p => p.SupplierId)
                 .OnDelete(DeleteBehavior.SetNull);
 
+            builder.Property(p => p.Id)
+                .ValueGeneratedNever();
+
             builder.Property(p => p.Name)
                 .IsRequired(true)
                 .HasMaxLength(100);

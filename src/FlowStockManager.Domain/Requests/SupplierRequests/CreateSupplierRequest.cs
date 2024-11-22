@@ -2,7 +2,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FlowStockManager.Domain.Requests.SupplierRequests;
 
-public record CreateSupplierRequest(
-    [property: MinLength(3), MaxLength(100)]
-    string Name, string? Contact,
-    [property: MaxLength(250)] string? Address);
+public record CreateSupplierRequest
+{
+    [MinLength(3), MaxLength(100)]
+    [Required]
+    public string Name { get; init; }
+
+    public string? Contact { get; init; }
+
+    [MaxLength(250)]
+    public string? Address { get; init; }
+}

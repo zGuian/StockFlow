@@ -2,11 +2,13 @@
 {
     public class ProductResponseView<T> where T : class
     {
-        public IEnumerable<T> Object { get; private set; }
+        public int TotalValue { get; private set; }
+        public IEnumerable<T> Content { get; private set; }
         
-        private ProductResponseView(IEnumerable<T> @object)
+        private ProductResponseView(IEnumerable<T> content)
         {
-            Object = @object;
+            Content = content;
+            TotalValue = content.Count();
         }
 
         public static class Factories
