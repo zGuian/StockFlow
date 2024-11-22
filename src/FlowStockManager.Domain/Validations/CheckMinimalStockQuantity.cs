@@ -1,12 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FlowStockManager.Domain.Validation;
+namespace FlowStockManager.Domain.Validations;
 
 public class CheckMinimalStockQuantity : ValidationAttribute
 {
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        var minimal = (decimal)value;
+        var minimal = (int)value!;
 
         if (minimal >= 5)
         {

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FlowStockManager.Domain\FlowStockManager.Domain.csproj" />
+    <ProjectReference Include="..\FlowStockManager.Infra.CrossCutting\FlowStockManager.Infra.CrossCutting.csproj" />
   </ItemGroup>
 
 </Project>

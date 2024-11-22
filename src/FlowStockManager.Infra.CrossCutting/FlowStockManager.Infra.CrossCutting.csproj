@@ -7,15 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Validations\CheckPrice\**" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="Validations\CheckPrice\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Validations\CheckPrice\**" />
+    <ProjectReference Include="..\FlowStockManager.Domain\FlowStockManager.Domain.csproj" />
   </ItemGroup>
 
 </Project>
