@@ -13,7 +13,11 @@ app.UseMiddleware(typeof(GlobalErrorHandlingMiddleware));
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(opts =>
+    {
+        opts.InjectStylesheet("/swagger-ui/custom.css");
+    });
 }
+app.UseStaticFiles();
 app.MapControllers();
 app.Run();
