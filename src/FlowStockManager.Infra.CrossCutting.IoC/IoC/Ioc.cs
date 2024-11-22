@@ -6,6 +6,7 @@ using FlowStockManager.Application.Services.Interfaces;
 using FlowStockManager.Application.UseCases;
 using FlowStockManager.Application.UseCases.Interfaces;
 using FlowStockManager.Domain.Interfaces;
+using FlowStockManager.Infra.CrossCutting.Configuration;
 using FlowStockManager.Infra.CrossCutting.Profiles;
 using FlowStockManager.Infra.Data.Context;
 using FlowStockManager.Infra.Data.Repositories;
@@ -20,6 +21,7 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
         public static IServiceCollection IoC(this IServiceCollection services, IConfiguration configuration)
         {
             services.DependencyInject(configuration);
+            services.SwaggerConfiguration();
             return services;
         }
 
