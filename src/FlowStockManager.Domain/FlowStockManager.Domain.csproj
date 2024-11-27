@@ -18,4 +18,9 @@
     <None Remove="Validations\CheckPrice\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Requests\ClientRequest\" />
+    <Folder Include="Responses\ClientResponse\" />
+  </ItemGroup>
+
 </Project>

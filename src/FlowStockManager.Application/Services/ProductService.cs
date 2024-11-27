@@ -37,5 +37,26 @@ namespace FlowStockManager.Application.Services
         {
             return _repository.DeleteInDataBaseAsync(id);
         }
+
+        public bool VerifyDisponible(IEnumerable<Product> products)
+        {
+            var productsIds = new List<Guid>();
+            foreach (var item in products)
+            {
+                productsIds.Add(item.Id);
+            }
+            return _repository.VerifyDataBaseDisponibleProduct(productsIds);
+        }
+
+        public void ConsumeProducts(IEnumerable<Product> products)
+        {
+            var productUpdate = new List<Product>();
+            foreach (var item in products)
+            {
+                item.ConsomeProduct(1);
+                productUpdate.Add(item);
+            }
+            
+        }
     }
 }

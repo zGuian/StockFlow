@@ -30,21 +30,25 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
             #region Handler
             services.AddScoped<IProductHandler, ProductHandler>();
             services.AddScoped<ISupplierHandler, SupplierHandler>();
+            services.AddScoped<IOrderHandler, OrderHandler>();
             #endregion Handler
 
             #region UseCases
             services.AddScoped<IProductUseCase, ProductUseCase>();
             services.AddScoped<ISupplierUseCase, SupplierUseCase>();
+            services.AddScoped<IOrderUseCase, OrderUseCase>();
             #endregion UseCases
 
             #region Services
             services.AddScoped<IProductService,ProductService>();
             services.AddScoped<ISupplierService, SupplierService>();
+            services.AddScoped<IOrderService, OrderService>();
             #endregion Services
 
             #region Repositories
             services.AddScoped<IProductRepository,ProductRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
             #endregion Repositories
 
             #region Database

@@ -9,5 +9,7 @@ namespace FlowStockManager.Application.Services.Interfaces
         Task<Product> RegisterAsync(Product entity);
         Task<Product> UpdateAsync(Product entity);
         Task DeleteAsync(Guid id);
+        bool VerifyDisponible(IEnumerable<Product> products);
+        void ConsumeProducts(IEnumerable<Product> products);
     }
 }
