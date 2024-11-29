@@ -13,12 +13,15 @@ namespace FlowStockManager.Infra.Data.Context
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Supplier> Suppliers { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<OrderProduct> OrderProducts { get; set; } = null!;
+        public DbSet<Client> Clients { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ProductMap());
             modelBuilder.ApplyConfiguration(new SupplierMap());
             modelBuilder.ApplyConfiguration(new OrderMap());
+            modelBuilder.ApplyConfiguration(new OrderProductMap());
         }
     }
 }

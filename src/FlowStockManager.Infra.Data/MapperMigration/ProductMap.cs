@@ -11,11 +11,6 @@ namespace FlowStockManager.Infra.Data.MapperMigration
             builder.ToTable("produto");
             builder.HasKey(p => p.Id);
 
-            builder.HasOne(p => p.Supplier)
-                .WithMany(s => s.Products)
-                .HasForeignKey(p => p.SupplierId)
-                .OnDelete(DeleteBehavior.SetNull);
-
             builder.Property(p => p.Id)
                 .ValueGeneratedNever();
 
@@ -33,10 +28,11 @@ namespace FlowStockManager.Infra.Data.MapperMigration
             builder.Property(p => p.StockQuantity)
                 .IsRequired(true);
 
-            builder.Property(p => p.MinimalStockQuantity)
-                .IsRequired(true);
 
-            builder.Ignore(p => p.Supplier);
+            builder.HasOne(p => p.Supplier)
+                .WithMany(s => s.Products)
+                .HasForeignKey(p => p.SupplierId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

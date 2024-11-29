@@ -7,10 +7,10 @@ namespace FlowStockManager.Domain.Entities
         [Required]
         public Guid Id { get; private set; }
 
-        [Required]
+        [Required, MaxLength(40)]
         public string Name { get; private set; }
 
-        [Required, EmailAddress]
+        [Required, EmailAddress, MaxLength(40)]
         public string Email { get; private set; }
 
         [MinLength(9), MaxLength(9)]
@@ -18,6 +18,8 @@ namespace FlowStockManager.Domain.Entities
 
         [Required, MinLength(10), MaxLength(200)]
         public string DeliveryAddress { get; private set; }
+
+        public virtual ICollection<Order>? Orders { get; private set; }
 
         public static class Factories
         {
