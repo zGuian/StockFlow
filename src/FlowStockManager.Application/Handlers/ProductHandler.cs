@@ -21,7 +21,7 @@ namespace FlowStockManager.Application.Handlers
         public async Task<ProductResponseView<ProductDto>> GetProductsAsync(int take, int skip)
         {
             var products = await _serviceProduct.GetAsync(take, skip);
-            var dtos = _useCase.ToIEnumerableDto(products);
+            var dtos = _useCase.EnumerableToDto(products);
             return ProductResponseView<ProductDto>.Factories.CreateResponseView(dtos);
         }
 

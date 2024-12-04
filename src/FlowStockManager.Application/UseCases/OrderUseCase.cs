@@ -15,11 +15,16 @@ namespace FlowStockManager.Application.UseCases
             _mapper = mapper;
         }
 
-        public Order CreateOrder(CreateOrderRequest orderRequest)
+        public Order CreateOrder(CreateOrderRequest orderRequest, Client client)
         {
-            var client = _mapper.Map<Client>(orderRequest.ClientId);
-            var products = _mapper.Map<IEnumerable<Product>>(orderRequest.ProductsId);
+            var pDtoRequest = orderRequest.Products.Select(p => p);
+            var products = _mapper.Map<List<Product>>(pDtoRequest);
             return Order.Factories.NewOrder(client, products);
+        }
+
+        public IEnumerable<OrderDto> EnumerableToDto(IEnumerable<Order> orders)
+        {
+            return _mapper.Map<IEnumerable<OrderDto>>(orders);
         }
 
         public OrderDto ToDto(Order entity)

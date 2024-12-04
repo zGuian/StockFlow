@@ -43,12 +43,16 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
             services.AddScoped<IProductService,ProductService>();
             services.AddScoped<ISupplierService, SupplierService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<IOrderProductService, OrderProductService>();
             #endregion Services
 
             #region Repositories
             services.AddScoped<IProductRepository,ProductRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IOrderProductRepository, OrderProductRepository>();
             #endregion Repositories
 
             #region Database
@@ -74,6 +78,9 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
             {
                 mc.AddProfile(new ProductMapper());
                 mc.AddProfile(new SupplierMapper());
+                mc.AddProfile(new ClientMapper());
+                mc.AddProfile(new OrderMapper());
+                mc.AddProfile(new OrderProductMapper());
             });
             return services.AddSingleton(mappingConfig.CreateMapper());
         }

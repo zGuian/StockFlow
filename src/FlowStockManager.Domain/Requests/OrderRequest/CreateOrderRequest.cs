@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FlowStockManager.Domain.Requests.OrderRequest.DtoRequest;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlowStockManager.Domain.Requests.OrderRequest
 {
     public record CreateOrderRequest
     {
         [Required]
-        public Guid ClientId { get; private set; }
+        public Guid ClientId { get; init; }
 
         [Required]
-        public IEnumerable<Guid> ProductsId { get; private set; }
+        public IEnumerable<ProductDtoRequest> Products { get; init; } = null!;
     }
 }

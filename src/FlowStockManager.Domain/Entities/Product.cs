@@ -8,7 +8,7 @@ public class Product
 {
     public Guid Id { get; private set; }
     [MinLength(3), MaxLength(100)]
-    public string Name { get; private set; }
+    public string Name { get; private set; } = string.Empty;
     [MaxLength(500)]
     public string? Description { get; private set; }
     [CheckPrice]
@@ -24,7 +24,7 @@ public class Product
 
     [NotMapped]
     public int QtdValueProduct { get; private set; }
-    public virtual ICollection<OrderProduct>? Orders { get; private set; }
+    public virtual ICollection<OrderProduct>? OrderProducts { get; private set; }
 
     public static class Factories
     {
@@ -41,16 +41,18 @@ public class Product
         }
     }
 
-    public static List<Product> ConsumeProducts(IEnumerable<Product> products)
+    public static List<Product> RemoveQtdProduct(IEnumerable<Product> products)
     {
         var listProduct = new List<Product>();
-        foreach (var product in products)
+        foreach (var item in products)
         {
-            product.StockQuantity -= product.QtdValueProduct;
-            listProduct.Add(product);
+            item.StockQuantity -= item.QtdValueProduct;
+            listProduct.Add(item);
         }
         return listProduct;
     }
+
+    private Product() { }
 
     private Product(string name, string? description, decimal price, int stockQuantity, Guid supplierId)
     {

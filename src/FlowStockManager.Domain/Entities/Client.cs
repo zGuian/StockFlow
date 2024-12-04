@@ -29,6 +29,8 @@ namespace FlowStockManager.Domain.Entities
             }
         }
 
+        private Client() { }
+
         private Client(string name, string email, string phone, string deliveryAddress)
         {
             Id = Guid.NewGuid();

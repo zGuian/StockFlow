@@ -16,6 +16,12 @@ namespace FlowStockManager.Application.Services
         public async Task<IEnumerable<Product>> GetAsync(int take, int skip)
         {
             return await _repository.FindDataBaseAsync(take, skip);
+        }        
+        
+        public async Task<IEnumerable<Product>> GetAsync(List<Product> products)
+        {
+            var productsIds = GetProductIds(products);
+            return await _repository.FindDataBaseAsync(productsIds);
         }
 
         public async Task<Product> GetAsync(Guid id)
@@ -40,23 +46,30 @@ namespace FlowStockManager.Application.Services
 
         public bool VerifyDisponible(IEnumerable<Product> products)
         {
-            var productsIds = new List<Guid>();
-            foreach (var item in products)
-            {
-                productsIds.Add(item.Id);
-            }
+            var productsIds = GetProductIds(products);
             return _repository.VerifyDataBaseDisponibleProduct(productsIds);
         }
 
-        public void ConsumeProducts(IEnumerable<Product> products)
+        public bool VerifyDisponible(IEnumerable<OrderProduct> orderProducts)
         {
-            var productUpdate = new List<Product>();
-            foreach (var item in products)
-            {
-                item.ConsomeProduct(1);
-                productUpdate.Add(item);
-            }
-            
+            var productsIds = GetOrderProductIds(orderProducts);
+            return _repository.VerifyDataBaseDisponibleProduct(productsIds);
+        }
+
+        public async Task ConsumeProducts(IEnumerable<Product> products)
+        {
+            products = Product.RemoveQtdProduct(products);
+            await _repository.UpdateDataBaseAsync(products);
+        }
+
+        private static List<Guid> GetOrderProductIds(IEnumerable<OrderProduct> orderProducts)
+        {
+            return orderProducts.Select(op => op.Product.Id).ToList();
+        }
+
+        private static List<Guid> GetProductIds(IEnumerable<Product> products)
+        {
+            return products.Select(p => p.Id).ToList();
         }
     }
 }

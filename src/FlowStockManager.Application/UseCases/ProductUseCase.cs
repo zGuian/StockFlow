@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FlowStockManager.Application.UseCases.Interfaces;
 using FlowStockManager.Domain.Entities;
+using FlowStockManager.Domain.Requests.OrderRequest.DtoRequest;
 using FlowStockManager.Domain.Requests.ProductRequests;
 using FlowStockManager.Infra.CrossCutting.DTOs.Products;
 
@@ -31,9 +32,14 @@ namespace FlowStockManager.Application.UseCases
             return _mapper.Map<Product>(productRequest);
         }
 
-        public IEnumerable<ProductDto> ToIEnumerableDto(IEnumerable<Product> products)
+        public IEnumerable<ProductDto> EnumerableToDto(IEnumerable<Product> products)
         {
             return _mapper.Map<IEnumerable<ProductDto>>(products);
+        }
+
+        public IEnumerable<Product> EnumerableToEntity(IEnumerable<ProductDtoRequest> products)
+        {
+            return products.Select(p => _mapper.Map<Product>(p));
         }
     }
 }

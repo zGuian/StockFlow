@@ -1,4 +1,5 @@
 ﻿using FlowStockManager.Domain.Entities;
+using FlowStockManager.Domain.Entities.Enums;
 using FlowStockManager.Domain.Exceptions;
 using FlowStockManager.Domain.Interfaces;
 using FlowStockManager.Infra.Data.Context;
@@ -15,12 +16,25 @@ namespace FlowStockManager.Infra.Data.Repositories
             _context = context;
         }
 
+        public async Task<IEnumerable<Order>> GetAsync()
+        {
+            var ordersFound = await _context.Orders.Where(o => o.OrderStatus == OrderStatus.Pending).ToListAsync();
+            if (ordersFound.Count != 0)
+            {
+                return ordersFound;
+            }
+            throw new NotFoundExceptions("Não foi encontrado nenhum pedido pendente");
+        }
+
         public async Task<Order> GetAsync(Guid orderId)
         {
-            var orderFound = await _context.Orders.FirstOrDefaultAsync(o => o.Id == orderId);
-            if (orderFound != null)
+            var query = _context.Orders.AsQueryable()
+                .AsNoTracking()
+                .Include(o => o.OrderProducts);
+            var resultSql = await query.FirstOrDefaultAsync(o => o.Id == orderId);
+            if (resultSql != null)
             {
-                return orderFound;
+                return resultSql;
             }
             throw new NotFoundExceptions("Não encontrado nenhum pedido");
         }

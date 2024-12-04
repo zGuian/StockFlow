@@ -5,6 +5,6 @@
         Pending = 0,
         Processed= 1,
         Concluded = 3,
-        Canceled = 4,gurocha
+        Canceled = 4,
     }
 }
