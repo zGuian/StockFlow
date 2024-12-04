@@ -5,11 +5,11 @@ namespace FlowStockManager.Domain.Entities;
 public class Supplier
 {
     public Guid Id { get; private set; }
-    
+
     [MinLength(3), MaxLength(100)]
-    public string Name { get; private set; }
+    public string Name { get; private set; } = string.Empty;
     public string? Contact { get; private set; }
-    
+
     [MaxLength(250)]
     public string? Address { get; private set; }
     public virtual ICollection<Product> Products { get; private set; } = null!;

@@ -18,6 +18,9 @@ namespace FlowStockManager.Infra.Data.MapperMigration
             builder.HasOne(op => op.Product)
                 .WithMany(p => p.OrderProducts)
                 .HasForeignKey(op => op.ProductId);
+
+            builder.Property(op => op.ProductQuantity)
+                .IsRequired(true);
         }
     }
 }

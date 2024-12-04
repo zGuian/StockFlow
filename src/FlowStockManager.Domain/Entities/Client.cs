@@ -8,16 +8,16 @@ namespace FlowStockManager.Domain.Entities
         public Guid Id { get; private set; }
 
         [Required, MaxLength(40)]
-        public string Name { get; private set; }
+        public string Name { get; private set; } = string.Empty;
 
         [Required, EmailAddress, MaxLength(40)]
-        public string Email { get; private set; }
+        public string Email { get; private set; } = string.Empty;
 
-        [MinLength(9), MaxLength(9)]
+        [MinLength(10), MaxLength(12)]
         public string? Phone { get; private set; }
 
         [Required, MinLength(10), MaxLength(200)]
-        public string DeliveryAddress { get; private set; }
+        public string DeliveryAddress { get; private set; } = string.Empty;
 
         public virtual ICollection<Order>? Orders { get; private set; }
 
@@ -31,13 +31,13 @@ namespace FlowStockManager.Domain.Entities
 
         private Client() { }
 
-        private Client(string name, string email, string phone, string deliveryAddress)
+        private Client(string name, string email, string? phone, string deliveryAddress)
         {
             Id = Guid.NewGuid();
-            Name = name;
-            Email = email;
+            Name = name.ToLower().Trim();
+            Email = email.ToLower().Trim();
             Phone = phone;
-            DeliveryAddress = deliveryAddress;
+            DeliveryAddress = deliveryAddress.ToLower().Trim();
         }
     }
 }

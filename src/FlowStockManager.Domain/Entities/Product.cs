@@ -22,8 +22,6 @@ public class Product
     public virtual Supplier? Supplier { get; private set; }
     public Guid SupplierId { get; private set; }
 
-    [NotMapped]
-    public int QtdValueProduct { get; private set; }
     public virtual ICollection<OrderProduct>? OrderProducts { get; private set; }
 
     public static class Factories
@@ -46,7 +44,6 @@ public class Product
         var listProduct = new List<Product>();
         foreach (var item in products)
         {
-            item.StockQuantity -= item.QtdValueProduct;
             listProduct.Add(item);
         }
         return listProduct;
@@ -58,7 +55,10 @@ public class Product
     {
         Id = Guid.NewGuid();
         Name = name.ToLower().Trim();
-        Description = description.ToLower().Trim();
+        if (description != null)
+        {
+            Description = description.ToLower().Trim();
+        }
         Price = price;
         StockQuantity = stockQuantity;
         SupplierId = supplierId;

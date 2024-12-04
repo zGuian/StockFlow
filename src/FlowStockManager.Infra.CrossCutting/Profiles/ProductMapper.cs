@@ -17,11 +17,8 @@ namespace FlowStockManager.Infra.CrossCutting.Profiles
 
             CreateMap<ProductDtoRequest, Product>()
                 .ForMember(src => src.Id,
-                    opts 
-                    => opts.MapFrom(dest => dest.ProductId))
-                .ForMember(src => src.QtdValueProduct,
-                    opts 
-                    => opts.MapFrom(dest => dest.QtdProduct));
+                    opts
+                    => opts.MapFrom(dest => dest.ProductId));
         }
     }
 }

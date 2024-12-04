@@ -16,17 +16,9 @@ namespace FlowStockManager.Domain.Entities
 
         public static class Factories
         {
-            public static Order NewOrder(Client client, List<Product> products)
+            public static Order NewOrder(Client client)
             {
-                var order = new Order(client);
-                var orderProducts = new List<OrderProduct>();
-                foreach (var item in products)
-                {
-                    var op = new OrderProduct(order, item);
-                    orderProducts.Add(op);
-                }
-                order.OrderProducts = orderProducts;
-                return order;
+                return new Order(client);
             }
         }
 
@@ -38,6 +30,12 @@ namespace FlowStockManager.Domain.Entities
                 return order;
             }
             throw new InvalidOperationException("Status do pedido esta invalido");
+        }
+
+        public static Order AddOrderProducts(Order order, IEnumerable<OrderProduct> orderProducts)
+        {
+            order.OrderProducts = orderProducts.ToList();
+            return order;
         }
 
         private Order() { }

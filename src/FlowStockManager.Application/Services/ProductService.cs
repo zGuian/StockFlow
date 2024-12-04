@@ -18,7 +18,7 @@ namespace FlowStockManager.Application.Services
             return await _repository.FindDataBaseAsync(take, skip);
         }        
         
-        public async Task<IEnumerable<Product>> GetAsync(List<Product> products)
+        public async Task<IEnumerable<Product>> GetAsync(IEnumerable<Product> products)
         {
             var productsIds = GetProductIds(products);
             return await _repository.FindDataBaseAsync(productsIds);
@@ -50,21 +50,10 @@ namespace FlowStockManager.Application.Services
             return _repository.VerifyDataBaseDisponibleProduct(productsIds);
         }
 
-        public bool VerifyDisponible(IEnumerable<OrderProduct> orderProducts)
-        {
-            var productsIds = GetOrderProductIds(orderProducts);
-            return _repository.VerifyDataBaseDisponibleProduct(productsIds);
-        }
-
         public async Task ConsumeProducts(IEnumerable<Product> products)
         {
             products = Product.RemoveQtdProduct(products);
             await _repository.UpdateDataBaseAsync(products);
-        }
-
-        private static List<Guid> GetOrderProductIds(IEnumerable<OrderProduct> orderProducts)
-        {
-            return orderProducts.Select(op => op.Product.Id).ToList();
         }
 
         private static List<Guid> GetProductIds(IEnumerable<Product> products)
