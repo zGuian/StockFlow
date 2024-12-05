@@ -41,6 +41,7 @@ namespace FlowStockManager.Infra.Data.Repositories
             {
                 var product = await _context.Products
                     .AsNoTracking()
+                    .Include(s => s.Supplier)
                     .FirstOrDefaultAsync(p => p.Id == item);
                 if (product != null)
                 {

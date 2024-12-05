@@ -6,18 +6,17 @@ namespace FlowStockManager.Application.Services
 {
     public class OrderProductService : IOrderProductService
     {
-        private readonly IProductRepository _productRepository;
         private readonly IOrderProductRepository _repository;
 
-        public OrderProductService(IProductRepository productRepository, IOrderProductRepository repository)
+        public OrderProductService(IOrderProductRepository repository)
         {
-            _productRepository = productRepository;
             _repository = repository;
         }
 
-        public async Task<Order> RegisterAsync(IEnumerable<OrderProduct> orderProducts)
-        { 
-            return await _repository.RegisterDataBaseAsync(orderProducts);
-        }
+        public async Task ConsumeProducts(IEnumerable<OrderProduct> orderProduct, Order order) => await _repository.ConsumeAsync(orderProduct, order);
+
+        public async Task<IEnumerable<OrderProduct>> GetAsync(Guid orderId) => await _repository.FindDataBaseAsync(orderId);
+
+        public async Task<Order> RegisterAsync(IEnumerable<OrderProduct> orderProducts) => await _repository.RegisterDataBaseAsync(orderProducts);
     }
 }

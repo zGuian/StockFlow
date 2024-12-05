@@ -1,14 +1,11 @@
 ﻿using FlowStockManager.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FlowStockManager.Domain.Interfaces
 {
     public interface IOrderProductRepository
     {
+        Task ConsumeAsync(IEnumerable<OrderProduct> orderProduct, Order order);
+        Task<IEnumerable<OrderProduct>> FindDataBaseAsync(Guid orderId);
         Task<Order> RegisterDataBaseAsync(IEnumerable<OrderProduct> orderProducts);
     }
 }
