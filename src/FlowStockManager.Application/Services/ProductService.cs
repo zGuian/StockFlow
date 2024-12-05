@@ -52,7 +52,6 @@ namespace FlowStockManager.Application.Services
 
         public async Task ConsumeProducts(IEnumerable<Product> products)
         {
-            products = Product.RemoveQtdProduct(products);
             await _repository.UpdateDataBaseAsync(products);
         }
 

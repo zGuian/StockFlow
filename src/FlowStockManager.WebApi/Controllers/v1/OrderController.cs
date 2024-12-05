@@ -44,10 +44,10 @@ namespace FlowStockManager.WebApi.Controllers.v1
         [EndpointSummary("Processa pedidos já registrado")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
-        [HttpPost("ProcresOrder", Order = 2)]
+        [HttpPost("ProcessOrder", Order = 2)]
         public async Task<IActionResult> ProcessOrder([FromQuery] Guid orderId)
         {
-            var order = await _handler.ProcessOrderAsync(orderId);
+            await _handler.ProcessOrderAsync(orderId);
             return NoContent();
         }
     }

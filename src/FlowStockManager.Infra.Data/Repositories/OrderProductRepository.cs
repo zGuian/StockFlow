@@ -1,6 +1,7 @@
 ﻿using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Interfaces;
 using FlowStockManager.Infra.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlowStockManager.Infra.Data.Repositories
 {
@@ -11,6 +12,33 @@ namespace FlowStockManager.Infra.Data.Repositories
         public OrderProductRepository(AppDbContext context)
         {
             _context = context;
+        }
+
+        public async Task ConsumeAsync(IEnumerable<OrderProduct> orderProducts, Order order)
+        {
+            foreach (var item in orderProducts)
+            {
+                var product = await _context.Products
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(p => p.Id == item.ProductId); 
+                if (product != null)
+                {
+                    OrderProduct.UpdateOrderProduct(item, product, item.ProductQuantity);
+                    _context.Products.Update(product);
+                    _context.Orders.Update(order);
+                }
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<OrderProduct>> FindDataBaseAsync(Guid orderId)
+        {
+            var query = _context.OrderProducts
+                .AsNoTracking()
+                .Include(op => op.Orders)
+                .Include(op => op.Product)
+                .Where(op => op.Orders.Id == orderId);
+            return await query.ToListAsync();
         }
 
         public async Task<Order> RegisterDataBaseAsync(IEnumerable<OrderProduct> orderProducts)

@@ -34,9 +34,6 @@ namespace FlowStockManager.Application.Services
             throw new NotImplementedException();
         }
 
-        public async Task UpdateAsync(Order order)
-        {
-            await _repository.UpdateDataBaseAsync(order);
-        }
+        public async Task UpdateAsync(Order order) => await _repository.UpdateDataBaseAsync(order);
     }
 }
