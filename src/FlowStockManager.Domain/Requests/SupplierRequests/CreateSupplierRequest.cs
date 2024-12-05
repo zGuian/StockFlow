@@ -6,7 +6,7 @@ public record CreateSupplierRequest
 {
     [MinLength(3), MaxLength(100)]
     [Required]
-    public string Name { get; init; }
+    public string Name { get; init; } = null!;
 
     public string? Contact { get; init; }
 

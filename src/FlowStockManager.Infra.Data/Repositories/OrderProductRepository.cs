@@ -7,14 +7,10 @@ namespace FlowStockManager.Infra.Data.Repositories
     public class OrderProductRepository : IOrderProductRepository
     {
         private readonly AppDbContext _context;
-        private readonly IProductRepository _productRepository;
-        private readonly IOrderRepository _orderRepository;
 
-        public OrderProductRepository(AppDbContext context, IProductRepository productRepository, IOrderRepository orderRepository)
+        public OrderProductRepository(AppDbContext context)
         {
             _context = context;
-            _productRepository = productRepository;
-            _orderRepository = orderRepository;
         }
 
         public async Task<Order> RegisterDataBaseAsync(IEnumerable<OrderProduct> orderProducts)
@@ -25,10 +21,10 @@ namespace FlowStockManager.Infra.Data.Repositories
                 {
                     foreach (var item in orderProducts)
                     {
-                        var pFound = await _productRepository.FindDataBaseAsync(item.ProductId);
-                        if (pFound != null)
+                        var existingProduct = await _context.Products.FindAsync(item.ProductId);
+                        if (existingProduct != null)
                         {
-                            _context.Entry(pFound).CurrentValues.SetValues(item.Product);
+                            item.AddProduct(existingProduct);
                         }
                         await _context.OrderProducts.AddAsync(item);
                     }

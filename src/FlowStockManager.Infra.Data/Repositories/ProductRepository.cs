@@ -34,12 +34,13 @@ namespace FlowStockManager.Infra.Data.Repositories
             throw new NotFoundExceptions($"Não encontrado nenhum produto com Id: [{id}]");
         }
 
-        public async Task<IEnumerable<Product>> FindDataBaseAsync(List<Guid> productIds)
+        public async Task<IEnumerable<Product>> FindDataBaseAsync(IEnumerable<Guid> productIds)
         {
             var products = new List<Product>();
             foreach (var item in productIds)
             {
-                var product = await _context.Products.AsNoTracking()
+                var product = await _context.Products
+                    .AsNoTracking()
                     .FirstOrDefaultAsync(p => p.Id == item);
                 if (product != null)
                 {

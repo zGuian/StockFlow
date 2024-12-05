@@ -11,8 +11,7 @@ namespace FlowStockManager.Infra.CrossCutting.Profiles
         {
             CreateMap<Order, OrderDto>()
                 .ForMember(src => src.Products, opts =>
-                    opts.MapFrom(dest => dest.OrderProducts))
-                .ReverseMap();
+                    opts.MapFrom(dest => dest.OrderProducts.Select(p => p.Product)));
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using FlowStockManager.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Text.RegularExpressions;
 
 namespace FlowStockManager.Infra.Data.MapperMigration
 {
@@ -24,9 +23,8 @@ namespace FlowStockManager.Infra.Data.MapperMigration
                 .IsRequired(true);
 
             builder.Property(c => c.Phone)
-                .HasConversion(
-               v => Regex.Replace(v, @"(\d{2})(\d{9})", "($1)$2-####-####"),
-                v => v.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", ""));
+                .HasMaxLength(12)
+                .IsRequired(false);
 
             builder.Property(c => c.DeliveryAddress)
                 .IsRequired(true);

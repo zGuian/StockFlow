@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FlowStockManager.Application.UseCases.Interfaces;
 using FlowStockManager.Domain.Entities;
-using FlowStockManager.Domain.Requests.OrderRequest;
 using FlowStockManager.Infra.CrossCutting.DTOs.Orders;
 
 namespace FlowStockManager.Application.UseCases
@@ -15,11 +14,9 @@ namespace FlowStockManager.Application.UseCases
             _mapper = mapper;
         }
 
-        public Order CreateOrder(CreateOrderRequest orderRequest, Client client)
+        public Order CreateOrder(Client client)
         {
-            var pDtoRequest = orderRequest.Products.Select(p => p);
-            var products = _mapper.Map<List<Product>>(pDtoRequest);
-            return Order.Factories.NewOrder(client, products);
+            return Order.Factories.NewOrder(client);
         }
 
         public IEnumerable<OrderDto> EnumerableToDto(IEnumerable<Order> orders)
