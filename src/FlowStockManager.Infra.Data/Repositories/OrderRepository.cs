@@ -52,11 +52,7 @@ namespace FlowStockManager.Infra.Data.Repositories
 
         public async Task UpdateDataBaseAsync(Order order)
         {
-            var orderUpdated = _context.Orders.Update(order);
-            if (orderUpdated.State != EntityState.Modified)
-            {
-                throw new InvalidOperationException("Houve um erro ao atualizar pedido");
-            }
+            _context.Orders.Update(order);
             await _context.SaveChangesAsync();
         }
     }

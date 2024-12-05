@@ -8,6 +8,6 @@ namespace FlowStockManager.Application.Handlers.Interfaces
     {
         Task<OrderResponseView<OrderDto>> GetOrdersAsync();
         Task<OrderResponseView<OrderDto>> RegisterOrderAsync(CreateOrderRequest orderRequest);
-        Task<OrderResponseView<OrderDto>> ProcessOrderAsync(Guid orderRequest);
+        Task ProcessOrderAsync(Guid orderRequest);
     }
 }

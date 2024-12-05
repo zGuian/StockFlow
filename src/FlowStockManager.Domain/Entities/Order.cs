@@ -26,16 +26,15 @@ namespace FlowStockManager.Domain.Entities
         {
             if (order.OrderStatus != OrderStatus.Pending)
             {
-                order.OrderStatus = status;
-                return order;
+                throw new ErrorResponse("Status do pedido esta invalido");
             }
-            throw new InvalidOperationException("Status do pedido esta invalido");
+            order.OrderStatus = status;
+            return order;
         }
 
-        public static Order AddOrderProducts(Order order, IEnumerable<OrderProduct> orderProducts)
+        public static void AddOrderProducts(Order order, IEnumerable<OrderProduct> orderProducts)
         {
             order.OrderProducts = orderProducts.ToList();
-            return order;
         }
 
         private Order() { }
@@ -47,6 +46,6 @@ namespace FlowStockManager.Domain.Entities
             Client = client;
             OrderDate = DateTime.UtcNow;
             OrderStatus = OrderStatus.Pending;
-        }       
+        }
     }
 }

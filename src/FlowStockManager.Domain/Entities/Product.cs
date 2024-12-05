@@ -39,14 +39,13 @@ public class Product
         }
     }
 
-    public static List<Product> RemoveQtdProduct(IEnumerable<Product> products)
+    public static void ConsumeProduct(Product product, int ProductQuantity)
     {
-        var listProduct = new List<Product>();
-        foreach (var item in products)
+        if (product.StockQuantity < ProductQuantity)
         {
-            listProduct.Add(item);
+            throw new Exception("Valor de estoque insuficiente");
         }
-        return listProduct;
+        product.StockQuantity -= ProductQuantity;
     }
 
     private Product() { }

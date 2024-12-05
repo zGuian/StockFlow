@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace FlowStockManager.Domain.Entities
+﻿namespace FlowStockManager.Domain.Entities
 {
     public class OrderProduct
     {
@@ -33,8 +31,28 @@ namespace FlowStockManager.Domain.Entities
             Product = existingProduct;
         }
 
+        public static void UpdateOrder(IEnumerable<OrderProduct> orderProduct, Order order)
+        {
+            foreach (var item in orderProduct)
+            {
+                item.Orders = order;
+            }
+        }
+
+        public static void UpdateOrderProduct(OrderProduct orderProduct, Product product, int quantityProduct)
+        {
+            Product.ConsumeProduct(product, quantityProduct);
+            orderProduct.Product = product;
+        }
+
+        public static void AddOrderAndProduct(OrderProduct orderProduct, Order order, Product product)
+        {
+            orderProduct.Orders = order;
+            orderProduct.Product = product;
+        }
+
         private OrderProduct() { }
 
-        
+
     }
 }
