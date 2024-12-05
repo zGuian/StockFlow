@@ -13,9 +13,14 @@ namespace FlowStockManager.Application.Services
             _repository = repository;
         }
 
-        public async Task<Client> GetAsync(Guid id)
-        {
-            return await _repository.FindDataBaseAsync(id);
-        }
+        public async Task<IEnumerable<Client>> GetAsync(int take, int skip) => await _repository.FindDataBaseAsync(take, skip);
+
+        public async Task<Client> GetAsync(Guid id) => await _repository.FindDataBaseAsync(id);
+
+        public async Task<Client> RegisterAsync(Client entity) => await _repository.RegisterDataBaseAsync(entity);
+
+        public async Task<Client> UpdateAsync(Client entity) => await _repository.UpdateDataBaseAsync(entity);
+
+        public async Task DeleteAsync(Guid id) => await _repository.DeleteDataBaseAsync(id);
     }
 }
