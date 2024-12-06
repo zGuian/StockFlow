@@ -1,7 +1,7 @@
 ﻿using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Entities.Enums;
 using FlowStockManager.Domain.Exceptions;
-using FlowStockManager.Domain.Interfaces;
+using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 

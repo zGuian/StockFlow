@@ -57,8 +57,8 @@ namespace FlowStockManager.WebApi.Middlewares
                     message = ex.Message;
                     status = HttpStatusCode.BadRequest;
                     stackTrace = ex.StackTrace!;
-                    break;                
-                
+                    break;
+
                 case Type _ when exceptionType == typeof(DbUpdateException):
                     message = ex.Message;
                     status = HttpStatusCode.BadRequest;

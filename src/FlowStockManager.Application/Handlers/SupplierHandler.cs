@@ -1,9 +1,9 @@
-﻿using FlowStockManager.Application.Handlers.Interfaces;
-using FlowStockManager.Application.Services.Interfaces;
-using FlowStockManager.Application.UseCases.Interfaces;
+﻿using FlowStockManager.Domain.DTOs.Suppliers;
+using FlowStockManager.Domain.Interfaces.Handlers;
+using FlowStockManager.Domain.Interfaces.Services;
+using FlowStockManager.Domain.Interfaces.UseCases;
 using FlowStockManager.Domain.Requests.SupplierRequests;
 using FlowStockManager.Domain.Responses.SupplierResponse;
-using FlowStockManager.Infra.CrossCutting.DTOs.Suppliers;
 
 namespace FlowStockManager.Application.Handlers
 {
@@ -28,7 +28,7 @@ namespace FlowStockManager.Application.Handlers
         {
             var dto = _useCase.ToDto(await _service.GetAsync(id));
             return SupplierResponseView<SupplierDto>.Factories.
-                CreateResponseView(new [] { dto });
+                CreateResponseView(new[] { dto });
         }
 
         public async Task<SupplierResponseView<SupplierDto>> RegisterSupplierAsync(CreateSupplierRequest supplierRequest)

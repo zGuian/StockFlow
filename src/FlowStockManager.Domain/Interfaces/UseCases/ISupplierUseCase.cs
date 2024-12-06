@@ -1,8 +1,8 @@
-﻿using FlowStockManager.Domain.Entities;
+﻿using FlowStockManager.Domain.DTOs.Suppliers;
+using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Requests.SupplierRequests;
-using FlowStockManager.Infra.CrossCutting.DTOs.Suppliers;
 
-namespace FlowStockManager.Application.UseCases.Interfaces
+namespace FlowStockManager.Domain.Interfaces.UseCases
 {
     public interface ISupplierUseCase
     {

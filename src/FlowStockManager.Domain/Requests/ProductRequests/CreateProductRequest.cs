@@ -1,9 +1,9 @@
-using System.ComponentModel.DataAnnotations;
 using FlowStockManager.Domain.Validations;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlowStockManager.Domain.Requests.ProductRequests;
 
-public record CreateProductRequest 
+public record CreateProductRequest
 {
     [MinLength(3), MaxLength(100), Required]
     public string Name { get; init; } = null!;

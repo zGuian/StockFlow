@@ -1,8 +1,8 @@
-﻿using FlowStockManager.Domain.Requests.SupplierRequests;
+﻿using FlowStockManager.Domain.DTOs.Suppliers;
+using FlowStockManager.Domain.Requests.SupplierRequests;
 using FlowStockManager.Domain.Responses.SupplierResponse;
-using FlowStockManager.Infra.CrossCutting.DTOs.Suppliers;
 
-namespace FlowStockManager.Application.Handlers.Interfaces
+namespace FlowStockManager.Domain.Interfaces.Handlers
 {
     public interface ISupplierHandler
     {

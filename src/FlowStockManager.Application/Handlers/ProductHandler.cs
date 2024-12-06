@@ -1,9 +1,9 @@
-﻿using FlowStockManager.Application.Handlers.Interfaces;
-using FlowStockManager.Application.Services.Interfaces;
-using FlowStockManager.Application.UseCases.Interfaces;
+﻿using FlowStockManager.Domain.DTOs.Products;
+using FlowStockManager.Domain.Interfaces.Handlers;
+using FlowStockManager.Domain.Interfaces.Services;
+using FlowStockManager.Domain.Interfaces.UseCases;
 using FlowStockManager.Domain.Requests.ProductRequests;
 using FlowStockManager.Domain.Responses.ProductResponse;
-using FlowStockManager.Infra.CrossCutting.DTOs.Products;
 
 namespace FlowStockManager.Application.Handlers
 {

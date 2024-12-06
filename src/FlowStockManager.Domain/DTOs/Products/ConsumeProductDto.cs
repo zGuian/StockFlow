@@ -1,4 +1,4 @@
-﻿namespace FlowStockManager.Infra.CrossCutting.DTOs.Products
+﻿namespace FlowStockManager.Domain.DTOs.Products
 {
     public class ConsumeProductDto
     {

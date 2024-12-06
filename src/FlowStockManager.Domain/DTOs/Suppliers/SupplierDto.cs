@@ -1,4 +1,4 @@
-﻿namespace FlowStockManager.Infra.CrossCutting.DTOs.Suppliers
+﻿namespace FlowStockManager.Domain.DTOs.Suppliers
 {
     public class SupplierDto
     {

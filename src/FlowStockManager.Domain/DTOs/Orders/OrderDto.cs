@@ -1,7 +1,7 @@
-﻿using FlowStockManager.Domain.Entities.Enums;
-using FlowStockManager.Infra.CrossCutting.DTOs.Products;
+﻿using FlowStockManager.Domain.DTOs.Products;
+using FlowStockManager.Domain.Entities.Enums;
 
-namespace FlowStockManager.Infra.CrossCutting.DTOs.Orders
+namespace FlowStockManager.Domain.DTOs.Orders
 {
     public record OrderDto
     {

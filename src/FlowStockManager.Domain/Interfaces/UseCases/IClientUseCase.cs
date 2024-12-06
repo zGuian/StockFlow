@@ -1,8 +1,8 @@
-﻿using FlowStockManager.Domain.Entities;
+﻿using FlowStockManager.Domain.DTOs.Clients;
+using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Requests.ClientRequest;
-using FlowStockManager.Infra.CrossCutting.DTOs.Clients;
 
-namespace FlowStockManager.Application.UseCases.Interfaces
+namespace FlowStockManager.Domain.Interfaces.UseCases
 {
     public interface IClientUseCase
     {

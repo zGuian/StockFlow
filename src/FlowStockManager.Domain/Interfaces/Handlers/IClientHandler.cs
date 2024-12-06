@@ -1,8 +1,8 @@
-﻿using FlowStockManager.Domain.Requests.ClientRequest;
+﻿using FlowStockManager.Domain.DTOs.Clients;
+using FlowStockManager.Domain.Requests.ClientRequest;
 using FlowStockManager.Domain.Responses.ClientResponse;
-using FlowStockManager.Infra.CrossCutting.DTOs.Clients;
 
-namespace FlowStockManager.Application.Handlers.Interfaces
+namespace FlowStockManager.Domain.Interfaces.Handlers
 {
     public interface IClientHandler
     {

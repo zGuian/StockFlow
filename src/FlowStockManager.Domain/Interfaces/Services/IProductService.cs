@@ -1,6 +1,6 @@
 ﻿using FlowStockManager.Domain.Entities;
 
-namespace FlowStockManager.Application.Services.Interfaces
+namespace FlowStockManager.Domain.Interfaces.Services
 {
     public interface IProductService
     {
@@ -11,8 +11,6 @@ namespace FlowStockManager.Application.Services.Interfaces
         Task<Product> UpdateAsync(Product entity);
         Task DeleteAsync(Guid id);
         bool VerifyDisponible(IEnumerable<Product> products);
-        //bool VerifyDisponible(IEnumerable<OrderProduct> orderProducts);
         Task ConsumeProducts(IEnumerable<Product> products);
-
     }
 }

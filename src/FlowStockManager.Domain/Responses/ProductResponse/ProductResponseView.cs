@@ -4,7 +4,7 @@
     {
         public int TotalValue { get; private set; }
         public IEnumerable<T> Content { get; private set; }
-        
+
         private ProductResponseView(IEnumerable<T> content)
         {
             Content = content;

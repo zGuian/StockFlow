@@ -1,7 +1,7 @@
-﻿using FlowStockManager.Domain.Entities;
-using FlowStockManager.Infra.CrossCutting.DTOs.Orders;
+﻿using FlowStockManager.Domain.DTOs.Orders;
+using FlowStockManager.Domain.Entities;
 
-namespace FlowStockManager.Application.UseCases.Interfaces
+namespace FlowStockManager.Domain.Interfaces.UseCases
 {
     public interface IOrderUseCase
     {

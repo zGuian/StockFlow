@@ -1,8 +1,8 @@
-﻿using FlowStockManager.Domain.Requests.ProductRequests;
+﻿using FlowStockManager.Domain.DTOs.Products;
+using FlowStockManager.Domain.Requests.ProductRequests;
 using FlowStockManager.Domain.Responses.ProductResponse;
-using FlowStockManager.Infra.CrossCutting.DTOs.Products;
 
-namespace FlowStockManager.Application.Handlers.Interfaces
+namespace FlowStockManager.Domain.Interfaces.Handlers
 {
     public interface IProductHandler
     {

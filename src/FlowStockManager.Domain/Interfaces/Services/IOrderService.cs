@@ -1,6 +1,6 @@
 ﻿using FlowStockManager.Domain.Entities;
 
-namespace FlowStockManager.Application.Services.Interfaces
+namespace FlowStockManager.Domain.Interfaces.Services
 {
     public interface IOrderService
     {

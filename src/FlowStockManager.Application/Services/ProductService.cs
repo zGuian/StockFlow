@@ -1,6 +1,6 @@
-﻿using FlowStockManager.Application.Services.Interfaces;
-using FlowStockManager.Domain.Entities;
-using FlowStockManager.Domain.Interfaces;
+﻿using FlowStockManager.Domain.Entities;
+using FlowStockManager.Domain.Interfaces.Repositories;
+using FlowStockManager.Domain.Interfaces.Services;
 
 namespace FlowStockManager.Application.Services
 {
@@ -16,8 +16,8 @@ namespace FlowStockManager.Application.Services
         public async Task<IEnumerable<Product>> GetAsync(int take, int skip)
         {
             return await _repository.FindDataBaseAsync(take, skip);
-        }        
-        
+        }
+
         public async Task<IEnumerable<Product>> GetAsync(IEnumerable<Product> products)
         {
             var productsIds = GetProductIds(products);

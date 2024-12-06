@@ -1,6 +1,6 @@
 ﻿using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Exceptions;
-using FlowStockManager.Domain.Interfaces;
+using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +15,7 @@ namespace FlowStockManager.Infra.Data.Repositories
             _context = context;
         }
 
-         public async Task<IEnumerable<Client>> FindDataBaseAsync(int take, int skip)
+        public async Task<IEnumerable<Client>> FindDataBaseAsync(int take, int skip)
         {
             var query = _context.Clients
                 .AsQueryable()
@@ -23,7 +23,7 @@ namespace FlowStockManager.Infra.Data.Repositories
             query.Take(take).Skip((skip - 1) * take);
             return await query.ToListAsync();
         }
-        
+
         public async Task<Client> FindDataBaseAsync(Guid id)
         {
             var respSql = await _context.Clients

@@ -1,6 +1,6 @@
-﻿using FlowStockManager.Application.Services.Interfaces;
-using FlowStockManager.Domain.Entities;
-using FlowStockManager.Domain.Interfaces;
+﻿using FlowStockManager.Domain.Entities;
+using FlowStockManager.Domain.Interfaces.Repositories;
+using FlowStockManager.Domain.Interfaces.Services;
 
 namespace FlowStockManager.Application.Services
 {

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using FlowStockManager.Application.Handlers;
-using FlowStockManager.Application.Handlers.Interfaces;
 using FlowStockManager.Application.Services;
-using FlowStockManager.Application.Services.Interfaces;
 using FlowStockManager.Application.UseCases;
-using FlowStockManager.Application.UseCases.Interfaces;
-using FlowStockManager.Domain.Interfaces;
+using FlowStockManager.Domain.Interfaces.Handlers;
+using FlowStockManager.Domain.Interfaces.Repositories;
+using FlowStockManager.Domain.Interfaces.Services;
+using FlowStockManager.Domain.Interfaces.UseCases;
 using FlowStockManager.Infra.CrossCutting.Configuration;
 using FlowStockManager.Infra.CrossCutting.Profiles;
 using FlowStockManager.Infra.Data.Context;
@@ -42,7 +42,7 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
             #endregion UseCases
 
             #region Services
-            services.AddScoped<IProductService,ProductService>();
+            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ISupplierService, SupplierService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IClientService, ClientService>();
@@ -50,7 +50,7 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
             #endregion Services
 
             #region Repositories
-            services.AddScoped<IProductRepository,ProductRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
