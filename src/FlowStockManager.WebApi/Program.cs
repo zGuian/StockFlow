@@ -1,5 +1,5 @@
-using FlowStockManager.WebApi.Middlewares;
 using FlowStockManager.Infra.CrossCutting.IoC.IoC;
+using FlowStockManager.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.IoC(builder.Configuration);

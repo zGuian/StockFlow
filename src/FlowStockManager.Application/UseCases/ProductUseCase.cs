@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using FlowStockManager.Application.UseCases.Interfaces;
+using FlowStockManager.Domain.DTOs.Products;
 using FlowStockManager.Domain.Entities;
+using FlowStockManager.Domain.Interfaces.UseCases;
 using FlowStockManager.Domain.Requests.OrderRequest.DtoRequest;
 using FlowStockManager.Domain.Requests.ProductRequests;
-using FlowStockManager.Infra.CrossCutting.DTOs.Products;
 
 namespace FlowStockManager.Application.UseCases
 {

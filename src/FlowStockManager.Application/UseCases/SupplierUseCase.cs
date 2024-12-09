@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using FlowStockManager.Application.UseCases.Interfaces;
+using FlowStockManager.Domain.DTOs.Suppliers;
 using FlowStockManager.Domain.Entities;
+using FlowStockManager.Domain.Interfaces.UseCases;
 using FlowStockManager.Domain.Requests.SupplierRequests;
-using FlowStockManager.Infra.CrossCutting.DTOs.Suppliers;
 
 namespace FlowStockManager.Application.UseCases
 {
@@ -22,7 +22,7 @@ namespace FlowStockManager.Application.UseCases
 
         public Supplier CreateSupplier(CreateSupplierRequest supplierRequest)
         {
-            return Supplier.Factories.NewSupplier(supplierRequest.Name, supplierRequest.Contact, 
+            return Supplier.Factories.NewSupplier(supplierRequest.Name, supplierRequest.Contact,
                 supplierRequest.Address);
         }
 

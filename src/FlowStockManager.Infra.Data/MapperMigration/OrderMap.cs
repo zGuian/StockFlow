@@ -10,7 +10,7 @@ namespace FlowStockManager.Infra.Data.MapperMigration
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder.ToTable("pedidos");
-            
+
             builder.Property(o => o.Id)
                 .ValueGeneratedNever();
 

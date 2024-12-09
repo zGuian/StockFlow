@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
+using FlowStockManager.Domain.DTOs.Orders;
 using FlowStockManager.Domain.Entities;
-using FlowStockManager.Domain.Requests.OrderRequest;
-using FlowStockManager.Infra.CrossCutting.DTOs.Orders;
 
 namespace FlowStockManager.Infra.CrossCutting.Profiles
 {

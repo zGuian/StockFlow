@@ -1,8 +1,8 @@
-﻿using FlowStockManager.Application.Handlers.Interfaces;
+﻿using FlowStockManager.Domain.DTOs.Orders;
 using FlowStockManager.Domain.Entities;
+using FlowStockManager.Domain.Interfaces.Handlers;
 using FlowStockManager.Domain.Requests.OrderRequest;
 using FlowStockManager.Domain.Responses.OrderResponse;
-using FlowStockManager.Infra.CrossCutting.DTOs.Orders;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 

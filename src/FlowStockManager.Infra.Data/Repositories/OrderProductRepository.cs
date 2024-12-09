@@ -1,5 +1,5 @@
 ﻿using FlowStockManager.Domain.Entities;
-using FlowStockManager.Domain.Interfaces;
+using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +20,7 @@ namespace FlowStockManager.Infra.Data.Repositories
             {
                 var product = await _context.Products
                     .AsNoTracking()
-                    .FirstOrDefaultAsync(p => p.Id == item.ProductId); 
+                    .FirstOrDefaultAsync(p => p.Id == item.ProductId);
                 if (product != null)
                 {
                     OrderProduct.UpdateOrderProduct(item, product, item.ProductQuantity);

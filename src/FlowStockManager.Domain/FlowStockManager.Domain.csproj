@@ -18,4 +18,8 @@
     <None Remove="Validations\CheckPrice\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\Entities\" />
+  </ItemGroup>
+
 </Project>

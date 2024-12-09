@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using FlowStockManager.Application.UseCases.Interfaces;
+using FlowStockManager.Domain.DTOs.Orders;
 using FlowStockManager.Domain.Entities;
-using FlowStockManager.Infra.CrossCutting.DTOs.Orders;
+using FlowStockManager.Domain.Interfaces.UseCases;
 
 namespace FlowStockManager.Application.UseCases
 {
