@@ -60,7 +60,7 @@ namespace FlowStockManager.Domain.Entities
         private Order(Client client)
         {
             Id = Guid.NewGuid();
-            ClientId = client.Id;
+            //ClientId = client.Id;
             Client = client;
             OrderDate = DateTime.UtcNow;
             OrderStatus = OrderStatus.Pending;

@@ -11,6 +11,7 @@ namespace FlowStockManager.Infra.Data.MapperMigration
         {
             builder.ToTable("pedidos");
 
+            builder.HasKey(o => o.Id);
             builder.Property(o => o.Id)
                 .ValueGeneratedNever();
 

@@ -1,20 +1,30 @@
-﻿namespace FlowStockManager.Domain.Responses.OrderResponse
-{
-    public class OrderResponseView<T> where T : class
-    {
-        public int TotalValue { get; private set; }
-        public IEnumerable<T> Content { get; private set; }
+﻿using FlowStockManager.Domain.DTOs.Orders;
+using FlowStockManager.Domain.Responses.Base;
 
-        private OrderResponseView(IEnumerable<T> content)
+namespace FlowStockManager.Domain.Responses.OrderResponse
+{
+    public class OrderResponseView : ResponseView<OrderDto>
+    {
+        private OrderResponseView(IEnumerable<OrderDto> content)
         {
-            Content = content;
+            Content = new List<OrderDto>(content);
+        }
+
+        private OrderResponseView(OrderDto content)
+        {
+            Content = [content];
         }
 
         public static class Factories
         {
-            public static OrderResponseView<T> CreateResponseView(IEnumerable<T> content)
+            public static OrderResponseView CreateResponseView(IEnumerable<OrderDto> content)
             {
-                return new OrderResponseView<T>(content);
+                return new OrderResponseView(content);
+            }
+
+            public static OrderResponseView CreateResponseView(OrderDto content)
+            {
+                return new OrderResponseView(content);
             }
         }
     }

@@ -19,6 +19,9 @@ namespace FlowStockManager.Domain.Entities
         [Required, MinLength(10), MaxLength(200)]
         public string DeliveryAddress { get; private set; } = string.Empty;
 
+        [Required]
+        public bool IsActive { get; private set; }
+
         public virtual ICollection<Order>? Orders { get; private set; }
 
         public static class Factories
@@ -38,6 +41,7 @@ namespace FlowStockManager.Domain.Entities
             Email = email.ToLower().Trim();
             Phone = phone;
             DeliveryAddress = deliveryAddress.ToLower().Trim();
+            IsActive = true;
         }
     }
 }
