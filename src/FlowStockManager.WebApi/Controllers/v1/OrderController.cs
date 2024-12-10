@@ -1,4 +1,4 @@
-﻿using FlowStockManager.Domain.DTOs.Orders;
+﻿using Asp.Versioning;
 using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Interfaces.Handlers;
 using FlowStockManager.Domain.Requests.OrderRequest;
@@ -9,9 +9,10 @@ using System.Net.Mime;
 namespace FlowStockManager.WebApi.Controllers.v1
 {
     [ApiController]
+    [ApiVersion("1")]
     [Produces(MediaTypeNames.Application.Json)]
     [Consumes(MediaTypeNames.Application.Json)]
-    [Route("api/v1/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class OrderController : ControllerBase
     {
         private readonly IOrderHandler _handler;

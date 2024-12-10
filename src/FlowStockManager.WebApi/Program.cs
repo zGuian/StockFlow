@@ -10,11 +10,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 app.UseMiddleware(typeof(GlobalErrorHandlingMiddleware));
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseDeveloperExceptionPage();
+//}
 app.UseStaticFiles();
 app.MapControllers();
 app.Run();

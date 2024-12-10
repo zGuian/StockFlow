@@ -1,4 +1,5 @@
-﻿using FlowStockManager.Domain.DTOs.Products;
+﻿using Asp.Versioning;
+using FlowStockManager.Domain.DTOs.Products;
 using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Interfaces.Handlers;
 using FlowStockManager.Domain.Requests.ProductRequests;
@@ -9,9 +10,10 @@ using System.Net.Mime;
 namespace FlowStockManager.WebApi.Controllers.v1
 {
     [ApiController]
+    [ApiVersion("1")]
     [Produces(MediaTypeNames.Application.Json)]
     [Consumes(MediaTypeNames.Application.Json)]
-    [Route("api/v1/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ProductController : ControllerBase
     {
         private readonly IProductHandler _handler;
