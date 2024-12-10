@@ -45,9 +45,9 @@ namespace FlowStockManager.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(OrderResponseView))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
         [HttpPost("OrderRegister", Order = 2)]
-        public async Task<IActionResult> Register([FromBody] CreateOrderRequest orderRequest)
+        public async Task<IActionResult> Register([FromBody] CreateOrderRequest orderRequest, CancellationToken cancellationToken)
         {
-            var order = await _handler.RegisterOrderAsync(orderRequest);
+            var order = await _handler.RegisterOrderAsync(orderRequest, cancellationToken);
             return Ok(order);
         }
 

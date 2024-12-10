@@ -39,14 +39,10 @@ namespace FlowStockManager.Infra.Data.Repositories
             throw new NotFoundExceptions("Não encontrado nenhum pedido");
         }
 
-        public async Task<Order> RegisterDataBaseAsync(Order order)
+        public async Task<Order> RegisterDataBaseAsync(Order order, CancellationToken ct)
         {
-            await _context.Orders.AddAsync(order);
-            var changedLine = await _context.SaveChangesAsync();
-            if (changedLine < 1)
-            {
-                throw new DbUpdateException("Não foi possivel realizar a alteração do produto");
-            }
+            await _context.Orders.AddAsync(order, ct);
+            await _context.SaveChangesAsync(ct);
             return order;
         }
 

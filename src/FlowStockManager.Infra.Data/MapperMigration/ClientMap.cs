@@ -10,7 +10,6 @@ namespace FlowStockManager.Infra.Data.MapperMigration
         {
             builder.ToTable("clientes");
 
-            builder.HasKey(c => c.Id);
             builder.Property(c => c.Id)
                 .ValueGeneratedNever();
 

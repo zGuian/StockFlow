@@ -6,7 +6,7 @@ namespace FlowStockManager.Domain.Interfaces.Services
     {
         Task<IEnumerable<Order>> GetOrderAsync();
         Task<Order> GetOrderAsync(Guid orderId);
-        Task<Order> RegisterAsync(Order order);
+        Task<Order> RegisterAsync(Order order, CancellationToken ct);
         Task UpdateAsync(Order order);
     }
 }

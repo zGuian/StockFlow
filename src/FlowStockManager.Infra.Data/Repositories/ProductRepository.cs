@@ -51,12 +51,9 @@ namespace FlowStockManager.Infra.Data.Repositories
                 Console.WriteLine($"Não encontrado nenhum produto com ID: {item}");
                 Console.WriteLine("------------------------------------------------------------------------------------");
             }
-            if (products.Count > 0)
-            {
+            if (products.Count < 0) { throw new NotFoundExceptions("Não encontrado nenhum produto."); }
                 return products;
             }
-            throw new NotFoundExceptions("Não encontrado nenhum produto.");
-        }
 
         public async Task<Product> RegisterDataBaseAsync(Product product)
         {

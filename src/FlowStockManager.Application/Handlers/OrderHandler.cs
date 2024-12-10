@@ -42,14 +42,14 @@ namespace FlowStockManager.Application.Handlers
             return OrderResponseView.Factories.CreateResponseView(dto);
         }
 
-        public async Task<OrderResponseView> RegisterOrderAsync(CreateOrderRequest orderRequest)
+        public async Task<OrderResponseView> RegisterOrderAsync(CreateOrderRequest orderRequest, CancellationToken ct)
         {
             var client = await _clientService.GetAsync(orderRequest.ClientId);
             ClientActived(client);
             var products = _productUseCase.EnumerableToEntity(orderRequest.Products);
             ProductDisponible(products);
             var order = _orderUseCase.CreateOrder(client);
-            await _orderService.RegisterAsync(order);
+            await _orderService.RegisterAsync(order, ct);
             products = await _productService.GetAsync(products);
             Order.AddOrderProducts(order, OrderProduct.Factories.NewOrderProduct(
                 order, products, orderRequest.Products.Select(p => p.QtdProduct)));

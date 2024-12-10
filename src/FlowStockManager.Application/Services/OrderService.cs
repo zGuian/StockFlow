@@ -8,7 +8,6 @@ namespace FlowStockManager.Application.Services
     {
         private readonly IOrderRepository _repository;
 
-
         public OrderService(IOrderRepository repository)
         {
             _repository = repository;
@@ -24,9 +23,9 @@ namespace FlowStockManager.Application.Services
             return await _repository.GetAsync(orderId);
         }
 
-        public async Task<Order> RegisterAsync(Order order)
+        public async Task<Order> RegisterAsync(Order order, CancellationToken ct)
         {
-            return await _repository.RegisterDataBaseAsync(order);
+            return await _repository.RegisterDataBaseAsync(order, ct);
         }
 
         public Task<Order> RegisterAsync(Order order, IEnumerable<Product> products)

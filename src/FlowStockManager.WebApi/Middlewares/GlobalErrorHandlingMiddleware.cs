@@ -31,7 +31,7 @@ namespace FlowStockManager.WebApi.Middlewares
             HttpStatusCode status;
             string stackTrace = string.Empty;
             string message;
-            string innerException = string.Empty;
+            string? innerException = string.Empty;
             var exceptionType = ex.GetType();
 
             switch (exceptionType)
@@ -40,49 +40,49 @@ namespace FlowStockManager.WebApi.Middlewares
                     message = ex.Message;
                     status = HttpStatusCode.NotFound;
                     stackTrace = ex.StackTrace!;
-                    innerException = ex.InnerException!.ToString();
+                    innerException = ex.InnerException?.ToString();
                     break;
 
                 case Type _ when exceptionType == typeof(NotFoundExceptions):
                     message = ex.Message;
                     status = HttpStatusCode.NotFound;
                     stackTrace = ex.StackTrace!;
-                    innerException = ex.InnerException!.ToString();
+                    innerException = ex.InnerException?.ToString();
                     break;
 
                 case Type _ when exceptionType == typeof(HttpRequestException):
                     message = ex.Message;
                     status = HttpStatusCode.BadRequest;
                     stackTrace = ex.StackTrace!;
-                    innerException = ex.InnerException!.ToString();
+                    innerException = ex.InnerException?.ToString();
                     break;
 
                 case Type _ when exceptionType == typeof(BadRequestExceptions):
                     message = ex.Message;
                     status = HttpStatusCode.BadRequest;
                     stackTrace = ex.StackTrace!;
-                    innerException = ex.InnerException!.ToString();
+                    innerException = ex.InnerException?.ToString();
                     break;
 
                 case Type _ when exceptionType == typeof(DbUpdateException):
                     message = ex.Message;
                     status = HttpStatusCode.BadRequest;
                     stackTrace = ex.StackTrace!;
-                    innerException = ex.InnerException!.ToString();
+                    innerException = ex.InnerException?.ToString();
                     break;
 
                 case Type _ when exceptionType == typeof(NotSupportedException):
                     message = ex.Message;
                     status = HttpStatusCode.InternalServerError;
                     stackTrace = ex.StackTrace!;
-                    innerException = ex.InnerException!.ToString();
+                    innerException = ex.InnerException?.ToString();
                     break;
 
                 case Type _ when exceptionType == typeof(Exception):
                     message = ex.Message;
                     status = HttpStatusCode.NotFound;
                     stackTrace = ex.StackTrace!;
-                    innerException = ex.InnerException!.ToString();
+                    innerException = ex.InnerException?.ToString();
                     break;
 
                 default:

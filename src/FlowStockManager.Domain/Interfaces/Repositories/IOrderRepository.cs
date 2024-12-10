@@ -6,7 +6,7 @@ namespace FlowStockManager.Domain.Interfaces.Repositories
     {
         Task<IEnumerable<Order>> GetAsync();
         Task<Order> GetAsync(Guid orderId);
-        Task<Order> RegisterDataBaseAsync(Order order);
+        Task<Order> RegisterDataBaseAsync(Order order, CancellationToken ct);
         Task UpdateDataBaseAsync(Order order);
     }
 }
