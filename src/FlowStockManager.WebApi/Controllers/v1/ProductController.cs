@@ -1,6 +1,4 @@
-﻿using Asp.Versioning;
-using FlowStockManager.Domain.DTOs.Products;
-using FlowStockManager.Domain.Entities;
+﻿using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Interfaces.Handlers;
 using FlowStockManager.Domain.Requests.ProductRequests;
 using FlowStockManager.Domain.Responses.SupplierResponse;
@@ -10,10 +8,9 @@ using System.Net.Mime;
 namespace FlowStockManager.WebApi.Controllers.v1
 {
     [ApiController]
-    [ApiVersion("1")]
     [Produces(MediaTypeNames.Application.Json)]
     [Consumes(MediaTypeNames.Application.Json)]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v1/[controller]")]
     public class ProductController : ControllerBase
     {
         private readonly IProductHandler _handler;
@@ -25,7 +22,7 @@ namespace FlowStockManager.WebApi.Controllers.v1
 
         [EndpointSummary("Obtem todos produtos com base nos parametros")]
         [HttpGet("ProductGetAll", Order = 0)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SupplierResponseView<ProductDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SupplierResponseView))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> GetAllProduct([FromQuery] int take = 12, [FromQuery] int skip = 0)
         {
@@ -34,7 +31,7 @@ namespace FlowStockManager.WebApi.Controllers.v1
 
         [EndpointSummary("Obter produto pelo ID")]
         [HttpGet("ProductGetById/{id:guid}", Order = 1)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SupplierResponseView<ProductDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SupplierResponseView))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> GetByIdProduct(Guid id)
         {
@@ -43,7 +40,7 @@ namespace FlowStockManager.WebApi.Controllers.v1
 
         [EndpointSummary("Registra novo produto")]
         [HttpPost("ProductRegister", Order = 2)]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SupplierResponseView<ProductDto>))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SupplierResponseView))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> RegisterProduct([FromBody] CreateProductRequest productRequest)
         {
@@ -53,7 +50,7 @@ namespace FlowStockManager.WebApi.Controllers.v1
 
         [EndpointSummary("Atualiza informações do produto")]
         [HttpPut("ProductUpdate", Order = 3)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SupplierResponseView<ProductDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SupplierResponseView))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductRequest productRequest)
         {

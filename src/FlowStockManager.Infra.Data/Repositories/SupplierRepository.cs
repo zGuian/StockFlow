@@ -3,6 +3,7 @@ using FlowStockManager.Domain.Exceptions;
 using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FlowStockManager.Infra.Data.Repositories
 {
@@ -22,14 +23,14 @@ namespace FlowStockManager.Infra.Data.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<Supplier> FindDataBaseAsync(Guid id)
+        public async Task<Supplier> FindDataBaseAsync(Expression<Func<Supplier, bool>> predicate)
         {
-            var resultDb = await _context.Suppliers.FirstOrDefaultAsync(s => s.Id == id);
+            var resultDb = await _context.Suppliers.FirstOrDefaultAsync(predicate);
             if (resultDb != null)
             {
                 return resultDb;
             }
-            throw new NotFoundExceptions($"Não encontrado nenhum produto com Id: [{id}]");
+            throw new NotFoundExceptions($"Não encontrado nenhum produto com Id: [{predicate}]");
         }
 
         public async Task<Supplier> RegisterDataBaseAsync(Supplier supplier)
@@ -41,17 +42,17 @@ namespace FlowStockManager.Infra.Data.Repositories
 
         public async Task<Supplier> UpdateDataBaseAsync(Supplier supplier)
         {
-            var supplierFound = await FindDataBaseAsync(supplier.Id);
+            var supplierFound = await FindDataBaseAsync(s => s.Id == supplier.Id);
             _context.Entry(supplierFound).CurrentValues.SetValues(supplier);
             await _context.SaveChangesAsync();
             return supplier;
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task<int> DeleteAsync(Expression<Func<Supplier, bool>> predicate)
         {
-            var supplier = await FindDataBaseAsync(id);
+            var supplier = await FindDataBaseAsync(predicate);
             _context.Suppliers.Remove(supplier);
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
     }
 }

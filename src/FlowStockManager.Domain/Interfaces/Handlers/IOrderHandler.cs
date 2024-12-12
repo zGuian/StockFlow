@@ -7,7 +7,7 @@ namespace FlowStockManager.Domain.Interfaces.Handlers
     {
         Task<OrderResponseView> GetOrdersAsync();
         Task<OrderResponseView> GetOrdersAsync(Guid id);
-        Task<OrderResponseView> RegisterOrderAsync(CreateOrderRequest orderRequest, CancellationToken cancellationToken);
+        Task<OrderResponseView> RegisterOrderAsync(CreateOrderRequest orderRequest);
         Task ProcessOrderAsync(Guid orderRequest);
     }
 }

@@ -42,14 +42,14 @@ namespace FlowStockManager.Application.Handlers
             return OrderResponseView.Factories.CreateResponseView(dto);
         }
 
-        public async Task<OrderResponseView> RegisterOrderAsync(CreateOrderRequest orderRequest, CancellationToken ct)
+        public async Task<OrderResponseView> RegisterOrderAsync(CreateOrderRequest orderRequest)
         {
             var client = await _clientService.GetAsync(orderRequest.ClientId);
             ClientActived(client);
             var products = _productUseCase.EnumerableToEntity(orderRequest.Products);
             ProductDisponible(products);
             var order = _orderUseCase.CreateOrder(client);
-            await _orderService.RegisterAsync(order, ct);
+            await _orderService.RegisterAsync(order);
             products = await _productService.GetAsync(products);
             Order.AddOrderProducts(order, OrderProduct.Factories.NewOrderProduct(
                 order, products, orderRequest.Products.Select(p => p.QtdProduct)));
@@ -62,7 +62,8 @@ namespace FlowStockManager.Application.Handlers
         public async Task ProcessOrderAsync(Guid orderId)
         {
             var orderProduct = await _orderProductService.GetAsync(orderId);
-            var order = Order.UpdateOrderStatus(orderProduct.First().Orders, OrderStatus.Processed);
+            var order = orderProduct.First().Orders;
+            Order.UpdateOrderStatus(order, OrderStatus.Processed);
             OrderProduct.UpdateOrder(orderProduct, order);
             await _orderProductService.ConsumeProducts(orderProduct, order);
         }

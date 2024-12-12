@@ -1,5 +1,4 @@
-﻿using FlowStockManager.Domain.DTOs.Suppliers;
-using FlowStockManager.Domain.Interfaces.Handlers;
+﻿using FlowStockManager.Domain.Interfaces.Handlers;
 using FlowStockManager.Domain.Interfaces.Services;
 using FlowStockManager.Domain.Interfaces.UseCases;
 using FlowStockManager.Domain.Requests.SupplierRequests;
@@ -18,33 +17,33 @@ namespace FlowStockManager.Application.Handlers
             _service = supplierService;
         }
 
-        public async Task<SupplierResponseView<SupplierDto>> GetSuppliersAsync(int skip, int take)
+        public async Task<SupplierResponseView> GetSuppliersAsync(int skip, int take)
         {
-            return SupplierResponseView<SupplierDto>.Factories.
+            return SupplierResponseView.Factories.
                 CreateResponseView(_useCase.ToEnumerableDto(await _service.GetAsync(skip, take)));
         }
 
-        public async Task<SupplierResponseView<SupplierDto>> GetSuppliersAsync(Guid id)
+        public async Task<SupplierResponseView> GetSuppliersAsync(Guid id)
         {
             var dto = _useCase.ToDto(await _service.GetAsync(id));
-            return SupplierResponseView<SupplierDto>.Factories.
-                CreateResponseView(new[] { dto });
+            return SupplierResponseView.Factories.
+                CreateResponseView(dto);
         }
 
-        public async Task<SupplierResponseView<SupplierDto>> RegisterSupplierAsync(CreateSupplierRequest supplierRequest)
+        public async Task<SupplierResponseView> RegisterSupplierAsync(CreateSupplierRequest supplierRequest)
         {
             var entity = _useCase.CreateSupplier(supplierRequest);
             entity = await _service.RegisterAsync(entity);
             var dto = _useCase.ToDto(entity);
-            return SupplierResponseView<SupplierDto>.Factories.CreateResponseView(new[] { dto });
+            return SupplierResponseView.Factories.CreateResponseView(dto);
         }
 
-        public async Task<SupplierResponseView<SupplierDto>> UpdateSupplierAsync(UpdateSupplierRequest supplierRequest)
+        public async Task<SupplierResponseView> UpdateSupplierAsync(UpdateSupplierRequest supplierRequest)
         {
             var entity = _useCase.ToEntity(supplierRequest);
             entity = await _service.UpdateAsync(entity);
             var dto = _useCase.ToDto(entity);
-            return SupplierResponseView<SupplierDto>.Factories.CreateResponseView(new[] { dto });
+            return SupplierResponseView.Factories.CreateResponseView(dto);
         }
 
         public async Task DeleteSupplier(Guid id)

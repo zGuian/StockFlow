@@ -26,7 +26,7 @@ namespace FlowStockManager.Application.Services
 
         public async Task<Product> GetAsync(Guid id)
         {
-            return await _repository.FindDataBaseAsync(id);
+            return await _repository.FindDataBaseAsync(p => p.Id == id);
         }
 
         public async Task<Product> RegisterAsync(Product product)
@@ -41,7 +41,7 @@ namespace FlowStockManager.Application.Services
 
         public Task DeleteAsync(Guid id)
         {
-            return _repository.DeleteInDataBaseAsync(id);
+            return _repository.DeleteAsync(p => p.Id == id);
         }
 
         public bool VerifyDisponible(IEnumerable<Product> products)

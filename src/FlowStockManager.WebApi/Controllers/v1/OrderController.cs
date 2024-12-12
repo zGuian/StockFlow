@@ -1,5 +1,4 @@
-﻿using Asp.Versioning;
-using FlowStockManager.Domain.Entities;
+﻿using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Interfaces.Handlers;
 using FlowStockManager.Domain.Requests.OrderRequest;
 using FlowStockManager.Domain.Responses.OrderResponse;
@@ -9,10 +8,9 @@ using System.Net.Mime;
 namespace FlowStockManager.WebApi.Controllers.v1
 {
     [ApiController]
-    [ApiVersion("1")]
     [Produces(MediaTypeNames.Application.Json)]
     [Consumes(MediaTypeNames.Application.Json)]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v1/[controller]")]
     public class OrderController : ControllerBase
     {
         private readonly IOrderHandler _handler;
@@ -46,9 +44,9 @@ namespace FlowStockManager.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(OrderResponseView))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
         [HttpPost("OrderRegister", Order = 2)]
-        public async Task<IActionResult> Register([FromBody] CreateOrderRequest orderRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> Register([FromBody] CreateOrderRequest orderRequest)
         {
-            var order = await _handler.RegisterOrderAsync(orderRequest, cancellationToken);
+            var order = await _handler.RegisterOrderAsync(orderRequest);
             return Ok(order);
         }
 

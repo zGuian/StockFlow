@@ -13,26 +13,16 @@ namespace FlowStockManager.Application.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Order>> GetOrderAsync()
-        {
-            return await _repository.GetAsync();
-        }
+        public async Task<IEnumerable<Order>> GetOrderAsync() =>
+            await _repository.FindEverythingWithPendingStatusAsync(o => o.OrderStatus == Domain.Entities.Enums.OrderStatus.Pending);
 
-        public async Task<Order> GetOrderAsync(Guid orderId)
-        {
-            return await _repository.GetAsync(orderId);
-        }
+        public async Task<Order> GetOrderAsync(Guid orderId) =>
+            await _repository.FindDataBaseAsync(o => o.Id == orderId);
 
-        public async Task<Order> RegisterAsync(Order order, CancellationToken ct)
-        {
-            return await _repository.RegisterDataBaseAsync(order, ct);
-        }
+        public async Task<Order> RegisterAsync(Order order) =>
+            await _repository.RegisterDataBaseAsync(order);
 
-        public Task<Order> RegisterAsync(Order order, IEnumerable<Product> products)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task UpdateAsync(Order order) => await _repository.UpdateDataBaseAsync(order);
+        public async Task UpdateAsync(Order order) => 
+            await _repository.UpdateDataBaseAsync(order);
     }
 }

@@ -3,6 +3,7 @@ using FlowStockManager.Domain.Exceptions;
 using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FlowStockManager.Infra.Data.Repositories
 {
@@ -22,16 +23,16 @@ namespace FlowStockManager.Infra.Data.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<Product> FindDataBaseAsync(Guid id)
+        public async Task<Product> FindDataBaseAsync(Expression<Func<Product, bool>> predicate)
         {
             var resultDb = await _context.Products
                 .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .FirstOrDefaultAsync(predicate);
             if (resultDb != null)
             {
                 return resultDb;
             }
-            throw new NotFoundExceptions($"Não encontrado nenhum produto com Id: [{id}]");
+            throw new NotFoundExceptions($"Não encontrado nenhum produto com Id: [{predicate}]");
         }
 
         public async Task<IEnumerable<Product>> FindDataBaseAsync(IEnumerable<Guid> productIds)
@@ -55,39 +56,19 @@ namespace FlowStockManager.Infra.Data.Repositories
                 return products;
             }
 
-        public async Task<Product> RegisterDataBaseAsync(Product product)
+        public async Task<Product> RegisterDataBaseAsync(Product entity)
         {
-            await _context.Products.AddAsync(product);
-            var changedLine = await _context.SaveChangesAsync();
-            if (changedLine < 1)
-            {
-                throw new DbUpdateException("Não foi possivel realizar a alteração do produto");
-            }
-            return product;
+            var entry = await _context.Products.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entry.Entity;
         }
 
-        public async Task<Product> UpdateDataBaseAsync(Product product)
+        public async Task<Product> UpdateDataBaseAsync(Product entity)
         {
-            var productFound = await FindDataBaseAsync(product.Id);
-            _context.Entry(productFound).CurrentValues.SetValues(product);
-            var changedLine = await _context.SaveChangesAsync();
-            if (changedLine < 1)
-            {
-                throw new DbUpdateException("Não foi possivel realizar a alteração do produto");
-            }
-            return product;
-        }
-
-        public async Task DeleteInDataBaseAsync(Guid id)
-        {
-            var product = await FindDataBaseAsync(id);
-            _context.Products.Remove(product);
-            var changedLine = await _context.SaveChangesAsync();
-            if (changedLine < 1)
-            {
-                throw new DbUpdateException("Não foi possivel realizar a alteração do produto");
-            }
-            return;
+            var productFound = await FindDataBaseAsync(p => p.Id == entity.Id);
+            _context.Entry(productFound).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<bool> VerifyQuantityInDataBaseAsync(List<Guid> productsId)
@@ -110,6 +91,18 @@ namespace FlowStockManager.Infra.Data.Repositories
         {
             _context.Products.UpdateRange(products);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteAsync(Expression<Func<Product, bool>> predicate)
+        {
+            var product = await FindDataBaseAsync(predicate);
+            _context.Products.Remove(product);
+            var save = await _context.SaveChangesAsync();
+            if (save < 1)
+            {
+                throw new DbUpdateException("Não foi possivel realizar a alteração do produto");
+            }
+            return save;
         }
     }
 }

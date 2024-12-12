@@ -22,7 +22,7 @@ namespace FlowStockManager.Domain.Entities
             }
         }
 
-        public static Order UpdateOrderStatus(Order order, OrderStatus status)
+        public static void UpdateOrderStatus(Order order, OrderStatus status)
         {
             switch (order.OrderStatus)
             {
@@ -47,7 +47,6 @@ namespace FlowStockManager.Domain.Entities
                 default:
                     throw new ErrorResponse("Status do pedido esta invalido");
             }
-            return order;
         }
 
         public static void AddOrderProducts(Order order, IEnumerable<OrderProduct> orderProducts)

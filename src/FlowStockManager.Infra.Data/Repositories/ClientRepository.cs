@@ -3,6 +3,7 @@ using FlowStockManager.Domain.Exceptions;
 using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FlowStockManager.Infra.Data.Repositories
 {
@@ -18,22 +19,21 @@ namespace FlowStockManager.Infra.Data.Repositories
         public async Task<IEnumerable<Client>> FindDataBaseAsync(int take, int skip)
         {
             var query = _context.Clients
-                .AsQueryable()
                 .AsNoTracking();
             query.Take(take).Skip((skip - 1) * take);
             return await query.ToListAsync();
         }
 
-        public async Task<Client> FindDataBaseAsync(Guid id)
+        public async Task<Client> FindDataBaseAsync(Expression<Func<Client, bool>> predicate)
         {
             var respSql = await _context.Clients
                 .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .FirstOrDefaultAsync(predicate);
             if (respSql != null)
             {
                 return respSql;
             }
-            throw new NotFoundExceptions($"Não encontrado nenhum cliente com esse ID: {id}");
+            throw new NotFoundExceptions($"Não encontrado nenhum cliente com esse ID: {predicate}");
         }
 
         public async Task<Client> RegisterDataBaseAsync(Client entity)
@@ -49,7 +49,7 @@ namespace FlowStockManager.Infra.Data.Repositories
 
         public async Task<Client> UpdateDataBaseAsync(Client entity)
         {
-            var clientFound = await FindDataBaseAsync(entity.Id);
+            var clientFound = await FindDataBaseAsync(c => c.Id == entity.Id);
             _context.Entry(clientFound).CurrentValues.SetValues(entity);
             var changedLine = await _context.SaveChangesAsync();
             if (changedLine < 1)
@@ -59,16 +59,11 @@ namespace FlowStockManager.Infra.Data.Repositories
             return entity;
         }
 
-        public async Task DeleteDataBaseAsync(Guid id)
+        public async Task<int> DeleteAsync(Expression<Func<Client, bool>> predicate)
         {
-            var client = await FindDataBaseAsync(id);
+            var client = await FindDataBaseAsync(predicate);
             _context.Clients.Remove(client);
-            var changedLine = await _context.SaveChangesAsync();
-            if (changedLine < 1)
-            {
-                throw new DbUpdateException("Não foi possivel realizar a alteração do produto");
-            }
-            return;
+            return await _context.SaveChangesAsync();
         }
     }
 }

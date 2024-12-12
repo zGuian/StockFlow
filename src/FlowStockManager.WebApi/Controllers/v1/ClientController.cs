@@ -1,6 +1,4 @@
-﻿using Asp.Versioning;
-using FlowStockManager.Domain.DTOs.Clients;
-using FlowStockManager.Domain.Entities;
+﻿using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Interfaces.Handlers;
 using FlowStockManager.Domain.Requests.ClientRequest;
 using FlowStockManager.Domain.Responses.ClientResponse;
@@ -10,10 +8,9 @@ using System.Net.Mime;
 namespace FlowStockManager.WebApi.Controllers.v1
 {
     [ApiController]
-    [ApiVersion("1")]
     [Produces(MediaTypeNames.Application.Json)]
     [Consumes(MediaTypeNames.Application.Json)]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v1/[controller]")]
     public class ClientController : ControllerBase
     {
         private readonly IClientHandler _handler;
@@ -25,9 +22,9 @@ namespace FlowStockManager.WebApi.Controllers.v1
 
         [EndpointSummary("Obtem todos clientes cadastrados com base nos parametros")]
         [HttpGet("ClientGetAll", Order = 0)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientResponseView<ClientDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientResponseView))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> Get(int take, int skip)
+        public async Task<IActionResult> Get(int take = 12, int skip = 1)
         {
             var clients = await _handler.GetAsync(take, skip);
             return Ok(clients);
@@ -35,7 +32,7 @@ namespace FlowStockManager.WebApi.Controllers.v1
 
         [EndpointSummary("Obter cliente pelo ID")]
         [HttpGet("ClientGetById/{id:guid}", Order = 1)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientResponseView<ClientDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientResponseView))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -43,10 +40,9 @@ namespace FlowStockManager.WebApi.Controllers.v1
             return Ok(client);
         }
 
-
         [EndpointSummary("Registra novo cliente")]
         [HttpPost("ClientRegister", Order = 2)]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ClientResponseView<ClientDto>))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ClientResponseView))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> Post(CreateClientRequest clientRequest)
         {
@@ -56,7 +52,7 @@ namespace FlowStockManager.WebApi.Controllers.v1
 
         [EndpointSummary("Atualiza informações do cliente")]
         [HttpPut("ClientUpdate", Order = 3)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientResponseView<ClientDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientResponseView))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> Put(UpdateClientRequest clientRequest)
         {

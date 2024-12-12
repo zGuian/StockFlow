@@ -1,20 +1,31 @@
-﻿namespace FlowStockManager.Domain.Responses.ClientResponse
-{
-    public class ClientResponseView<T> where T : class
-    {
-        public int TotalValue { get; private set; }
-        public IEnumerable<T> Content { get; private set; }
+﻿using FlowStockManager.Domain.DTOs.Clients;
+using FlowStockManager.Domain.Responses.Base;
 
-        private ClientResponseView(IEnumerable<T> content)
+namespace FlowStockManager.Domain.Responses.ClientResponse
+{
+    public class ClientResponseView : ResponseView<ClientDto>
+    {
+        private ClientResponseView(IEnumerable<ClientDto> content)
         {
-            Content = content;
+            Content = new List<ClientDto>(content);
+            TotalValue = content.Count();
+        }
+
+        private ClientResponseView(ClientDto content)
+        {
+            Content = new List<ClientDto> { content };
         }
 
         public static class Factories
         {
-            public static ClientResponseView<T> CreateResponseView(IEnumerable<T> content)
+            public static ClientResponseView CreateResponseView(IEnumerable<ClientDto> content)
             {
-                return new ClientResponseView<T>(content);
+                return new ClientResponseView(content);
+            }
+
+            public static ClientResponseView CreateResponseView(ClientDto content)
+            {
+                return new ClientResponseView(content);
             }
         }
     }

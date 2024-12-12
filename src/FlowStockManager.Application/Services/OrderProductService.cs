@@ -13,10 +13,13 @@ namespace FlowStockManager.Application.Services
             _repository = repository;
         }
 
-        public async Task ConsumeProducts(IEnumerable<OrderProduct> orderProduct, Order order) => await _repository.ConsumeAsync(orderProduct, order);
+        public async Task ConsumeProducts(IEnumerable<OrderProduct> orderProduct, Order order) =>
+            await _repository.ConsumeAsync(orderProduct, order);
 
-        public async Task<IEnumerable<OrderProduct>> GetAsync(Guid orderId) => await _repository.FindDataBaseAsync(orderId);
+        public async Task<IEnumerable<OrderProduct>> GetAsync(Guid id) =>
+            await _repository.FindAllProductByOrder(id);
 
-        public async Task<Order> RegisterAsync(IEnumerable<OrderProduct> orderProducts) => await _repository.RegisterDataBaseAsync(orderProducts);
+        public async Task<Order> RegisterAsync(IEnumerable<OrderProduct> orderProducts) =>
+            await _repository.RegisterDataBaseAsync(orderProducts);
     }
 }
