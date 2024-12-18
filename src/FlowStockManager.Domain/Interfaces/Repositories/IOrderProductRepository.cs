@@ -2,7 +2,7 @@
 
 namespace FlowStockManager.Domain.Interfaces.Repositories
 {
-    public interface IOrderProductRepository : IRepository<OrderProduct>
+    public interface IOrderProductRepository
     {
         Task ConsumeAsync(IEnumerable<OrderProduct> orderProduct, Order order);
         Task<Order> RegisterDataBaseAsync(IEnumerable<OrderProduct> orderProducts);

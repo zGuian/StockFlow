@@ -1,14 +1,16 @@
-﻿using FlowStockManager.Domain.Requests.ProductRequests;
-using FlowStockManager.Domain.Responses.ProductResponse;
+﻿using FlowStockManager.Domain.DTOs.Clients;
+using FlowStockManager.Domain.DTOs.Products;
+using FlowStockManager.Domain.Requests.ProductRequests;
+using FlowStockManager.Domain.Responses.Base;
 
 namespace FlowStockManager.Domain.Interfaces.Handlers
 {
     public interface IProductHandler
     {
-        Task<ProductResponseView> GetProductsAsync(int take, int skip);
-        Task<ProductResponseView> GetProductsAsync(Guid id);
-        Task<ProductResponseView> RegisterProductAsync(CreateProductRequest productRequest);
-        Task<ProductResponseView> UpdateProductAsync(UpdateProductRequest productRequest);
+        Task<ResponsePage<IEnumerable<ProductDto>>> GetProductsAsync(int take, int skip);
+        Task<Response<ProductDto>> GetProductsAsync(Guid id);
+        Task<Response<ProductDto>> RegisterProductAsync(CreateProductRequest productRequest);
+        Task<Response<ProductDto>> UpdateProductAsync(UpdateProductRequest productRequest);
         Task DeleteProductAsync(Guid id);
     }
 }

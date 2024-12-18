@@ -31,13 +31,12 @@ namespace FlowStockManager.WebApi.Controllers.v1
         }
 
         [EndpointSummary("Obter cliente pelo ID")]
-        [HttpGet("ClientGetById/{id:guid}", Order = 1)]
+        [HttpGet("ClientGetById", Order = 1)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClientResponseView))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get([FromQuery] Guid id)
         {
-            var client = await _handler.GetAsync(id);
-            return Ok(client);
+            return Ok(await _handler.GetAsync(id));
         }
 
         [EndpointSummary("Registra novo cliente")]

@@ -1,8 +1,9 @@
-﻿using FlowStockManager.Domain.Interfaces.Handlers;
+﻿using FlowStockManager.Domain.DTOs.Clients;
+using FlowStockManager.Domain.Interfaces.Handlers;
 using FlowStockManager.Domain.Interfaces.Services;
 using FlowStockManager.Domain.Interfaces.UseCases;
 using FlowStockManager.Domain.Requests.ClientRequest;
-using FlowStockManager.Domain.Responses.ClientResponse;
+using FlowStockManager.Domain.Responses.Base;
 
 namespace FlowStockManager.Application.Handlers
 {
@@ -17,34 +18,35 @@ namespace FlowStockManager.Application.Handlers
             _useCase = useCase;
         }
 
-        public async Task<ClientResponseView> GetAsync(int take, int skip)
+        public async Task<ResponsePage<IEnumerable<ClientDto>>> GetAsync(int take, int skip)
         {
             var clients = await _service.GetAsync(take, skip);
+            var count = clients.Count();
             var dto = _useCase.EnumerableToDto(clients);
-            return ClientResponseView.Factories.CreateResponseView(dto);
+            return ResponsePage<IEnumerable<ClientDto>>.Factories.CreateResponsePaged(dto, count);
         }
 
-        public async Task<ClientResponseView> GetAsync(Guid id)
+        public async Task<Response<ClientDto>> GetAsync(Guid id)
         {
             var client = await _service.GetAsync(id);
             var dto = _useCase.ToDto(client);
-            return ClientResponseView.Factories.CreateResponseView(dto);
+            return Response<ClientDto>.Factories.CreateResponse(dto, true);
         }
 
-        public async Task<ClientResponseView> RegisterAsync(CreateClientRequest clientRequest)
+        public async Task<Response<ClientDto>> RegisterAsync(CreateClientRequest clientRequest)
         {
             var entity = _useCase.ToEntity(clientRequest);
             entity = await _service.RegisterAsync(entity);
             var dto = _useCase.ToDto(entity);
-            return ClientResponseView.Factories.CreateResponseView(dto);
+            return Response<ClientDto>.Factories.CreateResponse(dto, true);
         }
 
-        public async Task<ClientResponseView> UpdateAsync(UpdateClientRequest clientRequest)
+        public async Task<Response<ClientDto>> UpdateAsync(UpdateClientRequest clientRequest)
         {
             var entity = _useCase.ToEntity(clientRequest);
             entity = await _service.UpdateAsync(entity);
             var dto = _useCase.ToDto(entity);
-            return ClientResponseView.Factories.CreateResponseView(dto);
+            return Response<ClientDto>.Factories.CreateResponse(dto, true);
         }
 
         public async Task DeleteAsync(Guid id)

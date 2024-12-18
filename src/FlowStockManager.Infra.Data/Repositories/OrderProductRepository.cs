@@ -1,9 +1,7 @@
 ﻿using FlowStockManager.Domain.Entities;
-using FlowStockManager.Domain.Exceptions;
 using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace FlowStockManager.Infra.Data.Repositories
 {
@@ -24,16 +22,6 @@ namespace FlowStockManager.Infra.Data.Repositories
                 .Include(op => op.Product)
                 .Where(op => op.Orders.Id == id);
             return await query.ToListAsync();
-        }
-
-        public async Task<OrderProduct> FindDataBaseAsync(Expression<Func<OrderProduct, bool>> predicate)
-        {
-            return await _context.OrderProducts.FirstOrDefaultAsync(predicate) ?? throw new NotFoundExceptions("Não encontrado");
-        }
-
-        public Task<IEnumerable<OrderProduct>> FindDataBaseAsync(int skip, int take)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<Order> RegisterDataBaseAsync(IEnumerable<OrderProduct> orderProducts)
@@ -82,25 +70,6 @@ namespace FlowStockManager.Infra.Data.Repositories
                 }
             }
             await _context.SaveChangesAsync();
-        }
-
-        public async Task<int> DeleteAsync(Expression<Func<OrderProduct, bool>> predicate)
-        {
-            var entity = await _context.OrderProducts.FirstOrDefaultAsync(predicate)
-                ?? throw new NotFoundExceptions("Não encontrado");
-            _context.OrderProducts.Remove(entity);
-            var remove = await _context.SaveChangesAsync();
-            return remove;
-        }
-
-        public Task<OrderProduct> RegisterDataBaseAsync(OrderProduct entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<OrderProduct> UpdateDataBaseAsync(OrderProduct entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace FlowStockManager.Application.Services
 
         public async Task<Supplier> GetAsync(Guid supplierId)
         {
-            return await _repository.FindDataBaseAsync(s => s.Id == supplierId);
+            return await _repository.FindDataBaseAsync(supplierId);
         }
 
         public async Task<Supplier> RegisterAsync(Supplier supplier)
@@ -35,7 +35,7 @@ namespace FlowStockManager.Application.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            await _repository.DeleteAsync(s => s.Id == id);
+            await _repository.DeleteAsync(id);
         }
     }
 }

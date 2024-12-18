@@ -1,10 +1,11 @@
-﻿using FlowStockManager.Domain.Entities;
+﻿using FlowStockManager.Domain.DTOs.Orders;
+using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Entities.Enums;
 using FlowStockManager.Domain.Interfaces.Handlers;
 using FlowStockManager.Domain.Interfaces.Services;
 using FlowStockManager.Domain.Interfaces.UseCases;
 using FlowStockManager.Domain.Requests.OrderRequest;
-using FlowStockManager.Domain.Responses.OrderResponse;
+using FlowStockManager.Domain.Responses.Base;
 
 namespace FlowStockManager.Application.Handlers
 {
@@ -28,21 +29,21 @@ namespace FlowStockManager.Application.Handlers
             _clientService = clientService;
         }
 
-        public async Task<OrderResponseView> GetOrdersAsync()
+        public async Task<ResponsePage<IEnumerable<OrderDto>>> GetOrdersAsync()
         {
             var orders = await _orderService.GetOrderAsync();
             var dto = _orderUseCase.EnumerableToDto(orders);
-            return OrderResponseView.Factories.CreateResponseView(dto);
+            return ResponsePage<IEnumerable<OrderDto>>.Factories.CreateResponsePaged(dto, dto.Count());
         }
 
-        public async Task<OrderResponseView> GetOrdersAsync(Guid id)
+        public async Task<Response<OrderDto>> GetOrdersAsync(Guid id)
         {
             var order = await _orderService.GetOrderAsync(id);
             var dto = _orderUseCase.ToDto(order);
-            return OrderResponseView.Factories.CreateResponseView(dto);
+            return Response<OrderDto>.Factories.CreateResponse(dto, true);
         }
 
-        public async Task<OrderResponseView> RegisterOrderAsync(CreateOrderRequest orderRequest)
+        public async Task<Response<OrderDto>> RegisterOrderAsync(CreateOrderRequest orderRequest)
         {
             var client = await _clientService.GetAsync(orderRequest.ClientId);
             ClientActived(client);
@@ -56,7 +57,7 @@ namespace FlowStockManager.Application.Handlers
             order = await _orderProductService.RegisterAsync(order.OrderProducts);
             order = await _orderService.GetOrderAsync(order.Id);
             var dto = _orderUseCase.ToDto(order);
-            return OrderResponseView.Factories.CreateResponseView(dto);
+            return Response<OrderDto>.Factories.CreateResponse(dto, true);
         }
 
         public async Task ProcessOrderAsync(Guid orderId)

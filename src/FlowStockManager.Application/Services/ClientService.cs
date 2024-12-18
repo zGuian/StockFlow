@@ -17,7 +17,7 @@ namespace FlowStockManager.Application.Services
             await _repository.FindDataBaseAsync(take, skip);
 
         public async Task<Client> GetAsync(Guid id) => 
-            await _repository.FindDataBaseAsync(c => c.Id == id);
+            await _repository.FindDataBaseAsync(id);
 
         public async Task<Client> RegisterAsync(Client entity) => 
             await _repository.RegisterDataBaseAsync(entity);
@@ -26,6 +26,6 @@ namespace FlowStockManager.Application.Services
             await _repository.UpdateDataBaseAsync(entity);
 
         public async Task DeleteAsync(Guid id) => 
-            await _repository.DeleteAsync(p => p.Id == id);
+            await _repository.DeleteAsync(id);
     }
 }

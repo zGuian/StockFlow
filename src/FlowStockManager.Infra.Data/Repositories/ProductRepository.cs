@@ -23,16 +23,16 @@ namespace FlowStockManager.Infra.Data.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<Product> FindDataBaseAsync(Expression<Func<Product, bool>> predicate)
+        public async Task<Product> FindDataBaseAsync(Guid id)
         {
             var resultDb = await _context.Products
                 .AsNoTracking()
-                .FirstOrDefaultAsync(predicate);
+                .FirstOrDefaultAsync(p => p.Id == id);
             if (resultDb != null)
             {
                 return resultDb;
             }
-            throw new NotFoundExceptions($"Não encontrado nenhum produto com Id: [{predicate}]");
+            throw new NotFoundExceptions($"Não encontrado nenhum produto com Id: [{id}]");
         }
 
         public async Task<IEnumerable<Product>> FindDataBaseAsync(IEnumerable<Guid> productIds)
@@ -65,7 +65,7 @@ namespace FlowStockManager.Infra.Data.Repositories
 
         public async Task<Product> UpdateDataBaseAsync(Product entity)
         {
-            var productFound = await FindDataBaseAsync(p => p.Id == entity.Id);
+            var productFound = await FindDataBaseAsync(entity.Id);
             _context.Entry(productFound).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();
             return entity;
@@ -93,9 +93,9 @@ namespace FlowStockManager.Infra.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<int> DeleteAsync(Expression<Func<Product, bool>> predicate)
+        public async Task<int> DeleteAsync(Guid id)
         {
-            var product = await FindDataBaseAsync(predicate);
+            var product = await FindDataBaseAsync(id);
             _context.Products.Remove(product);
             var save = await _context.SaveChangesAsync();
             if (save < 1)
@@ -103,6 +103,6 @@ namespace FlowStockManager.Infra.Data.Repositories
                 throw new DbUpdateException("Não foi possivel realizar a alteração do produto");
             }
             return save;
-        }
+        } 
     }
 }

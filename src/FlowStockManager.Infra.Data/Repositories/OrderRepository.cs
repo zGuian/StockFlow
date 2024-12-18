@@ -36,13 +36,13 @@ namespace FlowStockManager.Infra.Data.Repositories
             throw new NotFoundExceptions("Não foi encontrado nenhum pedido pendente");
         }
 
-        public async Task<Order> FindDataBaseAsync(Expression<Func<Order, bool>> predicate)
+        public async Task<Order> FindDataBaseAsync(Guid id)
         {
             var query = _context.Orders
                 .AsNoTracking()
                 .Include(o => o.OrderProducts)
                 .ThenInclude(op => op.Product);
-            var resultSql = await query.FirstOrDefaultAsync(predicate);
+            var resultSql = await query.FirstOrDefaultAsync(o => o.Id == id);
             if (resultSql != null)
             {
                 return resultSql;
@@ -64,9 +64,9 @@ namespace FlowStockManager.Infra.Data.Repositories
             return entry.Entity;
         }
 
-        public async Task<int> DeleteAsync(Expression<Func<Order, bool>> predicate)
+        public async Task<int> DeleteAsync(Guid id)
         {
-            var entity = FindDataBaseAsync(predicate);
+            var entity = FindDataBaseAsync(id);
             _context.Remove(entity);
             return await _context.SaveChangesAsync();
         }
