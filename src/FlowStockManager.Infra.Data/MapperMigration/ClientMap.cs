@@ -8,8 +8,7 @@ namespace FlowStockManager.Infra.Data.MapperMigration
     {
         public void Configure(EntityTypeBuilder<Client> builder)
         {
-            builder.ToTable("cliente");
-            builder.HasKey(c => c.Id);
+            builder.ToTable("clientes");
 
             builder.Property(c => c.Id)
                 .ValueGeneratedNever();
@@ -27,6 +26,9 @@ namespace FlowStockManager.Infra.Data.MapperMigration
                 .IsRequired(false);
 
             builder.Property(c => c.DeliveryAddress)
+                .IsRequired(true);
+
+            builder.Property(c => c.IsActive)
                 .IsRequired(true);
         }
     }

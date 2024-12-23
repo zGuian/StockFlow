@@ -17,7 +17,7 @@ namespace FlowStockManager.Application.UseCases
 
         public IEnumerable<ClientDto> EnumerableToDto(IEnumerable<Client> clients)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<ClientDto>>(clients);
         }
 
         public IEnumerable<ClientDto> EnumerableToEntity(IEnumerable<Client> clients)
@@ -27,27 +27,32 @@ namespace FlowStockManager.Application.UseCases
 
         public IEnumerable<Client> EnumerableToEntity(IEnumerable<ClientDto> clientsDtos)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<Client>>(clientsDtos);
         }
 
         public ClientDto ToDto(Client client)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<ClientDto>(client);
         }
 
         public Client ToEntity(ClientDto clientDto)
         {
-            throw new NotImplementedException();
+            return ConvertInEntity(clientDto);
         }
 
         public Client ToEntity(UpdateClientRequest clientDto)
         {
-            throw new NotImplementedException();
+            return ConvertInEntity(clientDto);
         }
 
         public Client ToEntity(CreateClientRequest clientDto)
         {
-            throw new NotImplementedException();
+            return ConvertInEntity(clientDto);
+        }
+
+        private Client ConvertInEntity<T>(T dto)
+        {
+            return _mapper.Map<Client>(dto);
         }
     }
 }

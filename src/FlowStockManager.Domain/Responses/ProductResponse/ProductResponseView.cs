@@ -1,21 +1,31 @@
-﻿namespace FlowStockManager.Domain.Responses.ProductResponse
-{
-    public class ProductResponseView<T> where T : class
-    {
-        public int TotalValue { get; private set; }
-        public IEnumerable<T> Content { get; private set; }
+﻿using FlowStockManager.Domain.DTOs.Products;
+using FlowStockManager.Domain.Responses.Base;
 
-        private ProductResponseView(IEnumerable<T> content)
+namespace FlowStockManager.Domain.Responses.ProductResponse
+{
+    public class ProductResponseView : ResponseView<ProductDto>
+    {
+        private ProductResponseView(IEnumerable<ProductDto> content)
         {
-            Content = content;
+            Content = new List<ProductDto>(content);
             TotalValue = content.Count();
+        }        
+        
+        private ProductResponseView(ProductDto content)
+        {
+            Content = new List<ProductDto> { content };
         }
 
         public static class Factories
         {
-            public static ProductResponseView<T> CreateResponseView(IEnumerable<T> @object)
+            public static ProductResponseView CreateResponseView(IEnumerable<ProductDto> @object)
             {
-                return new ProductResponseView<T>(@object);
+                return new ProductResponseView(@object);
+            }
+
+            public static ProductResponseView CreateResponseView(ProductDto product)
+            {
+                return new ProductResponseView(product);
             }
         }
     }

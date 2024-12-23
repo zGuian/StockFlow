@@ -18,7 +18,6 @@ namespace FlowStockManager.Infra.Data.Repositories
         public async Task<IEnumerable<Client>> FindDataBaseAsync(int take, int skip)
         {
             var query = _context.Clients
-                .AsQueryable()
                 .AsNoTracking();
             query.Take(take).Skip((skip - 1) * take);
             return await query.ToListAsync();
@@ -29,6 +28,8 @@ namespace FlowStockManager.Infra.Data.Repositories
             var respSql = await _context.Clients
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == id);
+            Console.WriteLine("--------------------------------------------------------------------");
+            Console.WriteLine($"Encontrado ID: {id}");
             if (respSql != null)
             {
                 return respSql;
@@ -59,16 +60,11 @@ namespace FlowStockManager.Infra.Data.Repositories
             return entity;
         }
 
-        public async Task DeleteDataBaseAsync(Guid id)
+        public async Task<int> DeleteAsync(Guid id)
         {
             var client = await FindDataBaseAsync(id);
             _context.Clients.Remove(client);
-            var changedLine = await _context.SaveChangesAsync();
-            if (changedLine < 1)
-            {
-                throw new DbUpdateException("Não foi possivel realizar a alteração do produto");
-            }
-            return;
+            return await _context.SaveChangesAsync();
         }
     }
 }

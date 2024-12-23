@@ -41,7 +41,7 @@ namespace FlowStockManager.Application.Services
 
         public Task DeleteAsync(Guid id)
         {
-            return _repository.DeleteInDataBaseAsync(id);
+            return _repository.DeleteAsync(id);
         }
 
         public bool VerifyDisponible(IEnumerable<Product> products)

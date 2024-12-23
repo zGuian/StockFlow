@@ -14,30 +14,13 @@ namespace FlowStockManager.Infra.Data.Repositories
             _context = context;
         }
 
-        public async Task ConsumeAsync(IEnumerable<OrderProduct> orderProducts, Order order)
-        {
-            foreach (var item in orderProducts)
-            {
-                var product = await _context.Products
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(p => p.Id == item.ProductId);
-                if (product != null)
-                {
-                    OrderProduct.UpdateOrderProduct(item, product, item.ProductQuantity);
-                    _context.Products.Update(product);
-                    _context.Orders.Update(order);
-                }
-            }
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<OrderProduct>> FindDataBaseAsync(Guid orderId)
+        public async Task<IEnumerable<OrderProduct>> FindAllProductByOrder(Guid id)
         {
             var query = _context.OrderProducts
                 .AsNoTracking()
                 .Include(op => op.Orders)
                 .Include(op => op.Product)
-                .Where(op => op.Orders.Id == orderId);
+                .Where(op => op.Orders.Id == id);
             return await query.ToListAsync();
         }
 
@@ -70,6 +53,23 @@ namespace FlowStockManager.Infra.Data.Repositories
                     throw new Exception(ex.Message);
                 }
             }
+        }
+
+        public async Task ConsumeAsync(IEnumerable<OrderProduct> orderProducts, Order order)
+        {
+            foreach (var item in orderProducts)
+            {
+                var product = await _context.Products
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(p => p.Id == item.ProductId);
+                if (product != null)
+                {
+                    OrderProduct.UpdateOrderProduct(item, product, item.ProductQuantity);
+                    _context.Products.Update(product);
+                    _context.Orders.Update(order);
+                }
+            }
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using FlowStockManager.Domain.DTOs.Suppliers;
-using FlowStockManager.Domain.Entities;
+﻿using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Interfaces.Handlers;
 using FlowStockManager.Domain.Requests.SupplierRequests;
 using FlowStockManager.Domain.Responses.SupplierResponse;
@@ -22,7 +21,7 @@ namespace FlowStockManager.WebApi.Controllers.v1
         }
 
         [EndpointSummary("Obtem todos fornecedores com base nos parametros passado")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SupplierResponseView<SupplierDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SupplierResponseView))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         [HttpGet("SupplierGetAll", Order = 0)]
         public async Task<IActionResult> GetAll([FromQuery] int skip, [FromQuery] int take)
@@ -31,7 +30,7 @@ namespace FlowStockManager.WebApi.Controllers.v1
         }
 
         [EndpointSummary("Obtem fornecedor com base no ID passado como parametro")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SupplierResponseView<SupplierDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SupplierResponseView))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         [HttpGet("SupplierGetById/{id:guid}", Order = 1)]
         public async Task<IActionResult> GetById(Guid id)
@@ -40,7 +39,7 @@ namespace FlowStockManager.WebApi.Controllers.v1
         }
 
         [EndpointSummary("Registra novo fornecedor")]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SupplierResponseView<SupplierDto>))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SupplierResponseView))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
         [HttpPost("SupplierRegister", Order = 2)]
         public async Task<IActionResult> Register([FromBody] CreateSupplierRequest supplierRequest)
@@ -51,7 +50,7 @@ namespace FlowStockManager.WebApi.Controllers.v1
 
         [EndpointSummary("Atualiza informações do fornecedor")]
         [HttpPut("SupplierUpdate", Order = 3)]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SupplierResponseView<SupplierDto>))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SupplierResponseView))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> Update([FromBody] UpdateSupplierRequest supplierRequest)

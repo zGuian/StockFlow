@@ -1,9 +1,9 @@
 ﻿using FlowStockManager.Domain.Entities;
-using FlowStockManager.Domain.Entities.Enums;
 using FlowStockManager.Domain.Exceptions;
 using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FlowStockManager.Infra.Data.Repositories
 {
@@ -16,9 +16,19 @@ namespace FlowStockManager.Infra.Data.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Order>> GetAsync()
+        public Task<IEnumerable<Order>> FindDataBaseAsync(int skip, int take)
         {
-            var ordersFound = await _context.Orders.Where(o => o.OrderStatus == OrderStatus.Pending).ToListAsync();
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Order>> FindEverythingWithPendingStatusAsync(Expression<Func<Order, bool>> predicate)
+        {
+            var ordersFound = await _context.Orders
+                .Where(predicate)
+                .Include(o => o.OrderProducts)
+                .ThenInclude(op => op.Product)
+                .AsNoTracking()
+                .ToListAsync();
             if (ordersFound.Count != 0)
             {
                 return ordersFound;
@@ -26,12 +36,13 @@ namespace FlowStockManager.Infra.Data.Repositories
             throw new NotFoundExceptions("Não foi encontrado nenhum pedido pendente");
         }
 
-        public async Task<Order> GetAsync(Guid orderId)
+        public async Task<Order> FindDataBaseAsync(Guid id)
         {
-            var query = _context.Orders.AsQueryable()
+            var query = _context.Orders
                 .AsNoTracking()
-                .Include(o => o.OrderProducts);
-            var resultSql = await query.FirstOrDefaultAsync(o => o.Id == orderId);
+                .Include(o => o.OrderProducts)
+                .ThenInclude(op => op.Product);
+            var resultSql = await query.FirstOrDefaultAsync(o => o.Id == id);
             if (resultSql != null)
             {
                 return resultSql;
@@ -42,18 +53,22 @@ namespace FlowStockManager.Infra.Data.Repositories
         public async Task<Order> RegisterDataBaseAsync(Order order)
         {
             await _context.Orders.AddAsync(order);
-            var changedLine = await _context.SaveChangesAsync();
-            if (changedLine < 1)
-            {
-                throw new DbUpdateException("Não foi possivel realizar a alteração do produto");
-            }
+            await _context.SaveChangesAsync();
             return order;
         }
 
-        public async Task UpdateDataBaseAsync(Order order)
+        public async Task<Order> UpdateDataBaseAsync(Order order)
         {
-            _context.Orders.Update(order);
+            var entry = _context.Orders.Update(order);
             await _context.SaveChangesAsync();
+            return entry.Entity;
+        }
+
+        public async Task<int> DeleteAsync(Guid id)
+        {
+            var entity = FindDataBaseAsync(id);
+            _context.Remove(entity);
+            return await _context.SaveChangesAsync();
         }
     }
 }
