@@ -6,10 +6,12 @@ namespace FlowStockManager.Application.Services
 {
     public class SupplierService : ISupplierService
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ISupplierRepository _repository;
 
-        public SupplierService(ISupplierRepository repository)
+        public SupplierService(IUnitOfWork unitOfWork, ISupplierRepository repository)
         {
+            _unitOfWork = unitOfWork;
             _repository = repository;
         }
 
@@ -25,17 +27,17 @@ namespace FlowStockManager.Application.Services
 
         public async Task<Supplier> RegisterAsync(Supplier supplier)
         {
-            return await _repository.RegisterDataBaseAsync(supplier);
+            return await _unitOfWork.SupplierRepository.RegisterDataBaseAsync(supplier);
         }
 
         public async Task<Supplier> UpdateAsync(Supplier supplier)
         {
-            return await _repository.UpdateDataBaseAsync(supplier);
+            return await _unitOfWork.SupplierRepository.UpdateDataBaseAsync(supplier);
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            await _repository.DeleteAsync(id);
+            await _unitOfWork.SupplierRepository.DeleteAsync(id);
         }
     }
 }

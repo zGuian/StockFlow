@@ -6,26 +6,35 @@ namespace FlowStockManager.Application.Services
 {
     public class ClientService : IClientService
     {
-        private readonly IClientRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IClientRepository _clientRepository;
 
-        public ClientService(IClientRepository repository)
+        public ClientService(IUnitOfWork unitOfWork, IClientRepository clientRepository)
         {
-            _repository = repository;
+            _unitOfWork = unitOfWork;
+            _clientRepository = clientRepository;
         }
 
         public async Task<IEnumerable<Client>> GetAsync(int take, int skip) => 
-            await _repository.FindDataBaseAsync(take, skip);
+            await _clientRepository.FindDataBaseAsync(take, skip);
 
-        public async Task<Client> GetAsync(Guid id) => 
-            await _repository.FindDataBaseAsync(id);
+        public async Task<Client> GetAsync(Guid id) => await _clientRepository.FindDataBaseAsync(id);
 
-        public async Task<Client> RegisterAsync(Client entity) => 
-            await _repository.RegisterDataBaseAsync(entity);
+        public async Task<Client> RegisterAsync(Client entity)
+        {
+            var client = await _unitOfWork.ClientRepository.RegisterDataBaseAsync(entity);
+            return client;
+        }
 
-        public async Task<Client> UpdateAsync(Client entity) => 
-            await _repository.UpdateDataBaseAsync(entity);
+        public async Task<Client> UpdateAsync(Client entity)
+        {
+            var client = await _unitOfWork.ClientRepository.UpdateDataBaseAsync(entity);
+            return client;
+        }
 
-        public async Task DeleteAsync(Guid id) => 
-            await _repository.DeleteAsync(id);
+        public async Task DeleteAsync(Guid id)
+        {
+            await _unitOfWork.ClientRepository.DeleteAsync(id);
+        }
     }
 }

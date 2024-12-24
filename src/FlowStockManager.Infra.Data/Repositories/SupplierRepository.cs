@@ -36,7 +36,6 @@ namespace FlowStockManager.Infra.Data.Repositories
         public async Task<Supplier> RegisterDataBaseAsync(Supplier supplier)
         {
             await _context.Suppliers.AddAsync(supplier);
-            await _context.SaveChangesAsync();
             return supplier;
         }
 
@@ -44,15 +43,13 @@ namespace FlowStockManager.Infra.Data.Repositories
         {
             var supplierFound = await FindDataBaseAsync(supplier.Id);
             _context.Entry(supplierFound).CurrentValues.SetValues(supplier);
-            await _context.SaveChangesAsync();
             return supplier;
         }
 
-        public async Task<int> DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             var supplier = await FindDataBaseAsync(id);
             _context.Suppliers.Remove(supplier);
-            return await _context.SaveChangesAsync();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FlowStockManager.Domain.DTOs.Clients;
 using FlowStockManager.Domain.Interfaces.Handlers;
+using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Domain.Interfaces.Services;
 using FlowStockManager.Domain.Interfaces.UseCases;
 using FlowStockManager.Domain.Requests.ClientRequest;
@@ -9,13 +10,15 @@ namespace FlowStockManager.Application.Handlers
 {
     public class ClientHandler : IClientHandler
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IClientService _service;
         private readonly IClientUseCase _useCase;
 
-        public ClientHandler(IClientService service, IClientUseCase useCase)
+        public ClientHandler(IClientService service, IClientUseCase useCase, IUnitOfWork unitOfWork)
         {
             _service = service;
             _useCase = useCase;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ResponsePage<IEnumerable<ClientDto>>> GetAsync(int take, int skip)
@@ -37,6 +40,7 @@ namespace FlowStockManager.Application.Handlers
         {
             var entity = _useCase.ToEntity(clientRequest);
             entity = await _service.RegisterAsync(entity);
+            await _unitOfWork.CommitAsync();
             var dto = _useCase.ToDto(entity);
             return Response<ClientDto>.Factories.CreateResponse(dto, true);
         }
@@ -45,6 +49,7 @@ namespace FlowStockManager.Application.Handlers
         {
             var entity = _useCase.ToEntity(clientRequest);
             entity = await _service.UpdateAsync(entity);
+            await _unitOfWork.CommitAsync();
             var dto = _useCase.ToDto(entity);
             return Response<ClientDto>.Factories.CreateResponse(dto, true);
         }
@@ -52,7 +57,7 @@ namespace FlowStockManager.Application.Handlers
         public async Task DeleteAsync(Guid id)
         {
             await _service.DeleteAsync(id);
-            return;
+            await _unitOfWork.CommitAsync();
         }
     }
 }
