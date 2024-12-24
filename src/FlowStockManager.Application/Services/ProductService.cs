@@ -6,11 +6,13 @@ namespace FlowStockManager.Application.Services
 {
     public class ProductService : IProductService
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IProductRepository _repository;
 
-        public ProductService(IProductRepository repository)
+        public ProductService(IProductRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IEnumerable<Product>> GetAsync(int take, int skip)
@@ -31,17 +33,17 @@ namespace FlowStockManager.Application.Services
 
         public async Task<Product> RegisterAsync(Product product)
         {
-            return await _repository.RegisterDataBaseAsync(product);
+            return await _unitOfWork.ProductRepository.RegisterDataBaseAsync(product);
         }
 
         public async Task<Product> UpdateAsync(Product product)
         {
-            return await _repository.UpdateDataBaseAsync(product);
+            return await _unitOfWork.ProductRepository.UpdateDataBaseAsync(product);
         }
 
         public Task DeleteAsync(Guid id)
         {
-            return _repository.DeleteAsync(id);
+            return _unitOfWork.ProductRepository.DeleteAsync(id);
         }
 
         public bool VerifyDisponible(IEnumerable<Product> products)
@@ -50,9 +52,9 @@ namespace FlowStockManager.Application.Services
             return _repository.VerifyDataBaseDisponibleProduct(productsIds);
         }
 
-        public async Task ConsumeProducts(IEnumerable<Product> products)
+        public void ConsumeProducts(IEnumerable<Product> products)
         {
-            await _repository.UpdateDataBaseAsync(products);
+            _unitOfWork.ProductRepository.UpdateDataBaseAsync(products);
         }
 
         private static List<Guid> GetProductIds(IEnumerable<Product> products)

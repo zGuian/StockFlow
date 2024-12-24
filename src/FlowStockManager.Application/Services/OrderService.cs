@@ -7,10 +7,12 @@ namespace FlowStockManager.Application.Services
 {
     public class OrderService : IOrderService
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IOrderRepository _repository;
 
-        public OrderService(IOrderRepository repository)
+        public OrderService(IUnitOfWork unitOfWork, IOrderRepository repository)
         {
+            _unitOfWork = unitOfWork;
             _repository = repository;
         }
 
@@ -20,10 +22,15 @@ namespace FlowStockManager.Application.Services
         public async Task<Order> GetOrderAsync(Guid orderId) =>
             await _repository.FindDataBaseAsync(orderId);
 
-        public async Task<Order> RegisterAsync(Order order) =>
-            await _repository.RegisterDataBaseAsync(order);
+        public async Task<Order> RegisterAsync(Order order)
+        {
+            order = await _unitOfWork.OrderRepository.RegisterDataBaseAsync(order);
+            return order;
+        }
 
-        public async Task UpdateAsync(Order order) =>
+        public async Task UpdateAsync(Order order)
+        {
             await _repository.UpdateDataBaseAsync(order);
+        }
     }
 }

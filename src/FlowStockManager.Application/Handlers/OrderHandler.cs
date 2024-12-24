@@ -2,6 +2,7 @@
 using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Entities.Enums;
 using FlowStockManager.Domain.Interfaces.Handlers;
+using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Domain.Interfaces.Services;
 using FlowStockManager.Domain.Interfaces.UseCases;
 using FlowStockManager.Domain.Requests.OrderRequest;
@@ -11,6 +12,7 @@ namespace FlowStockManager.Application.Handlers
 {
     public class OrderHandler : IOrderHandler
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IOrderService _orderService;
         private readonly IProductService _productService;
         private readonly IOrderUseCase _orderUseCase;
@@ -18,7 +20,7 @@ namespace FlowStockManager.Application.Handlers
         private readonly IOrderProductService _orderProductService;
         private readonly IClientService _clientService;
 
-        public OrderHandler(IOrderService serviceOrder, IOrderUseCase useCase, IProductService productService,
+        public OrderHandler(IUnitOfWork unitOfWork, IOrderService serviceOrder, IOrderUseCase useCase, IProductService productService,
             IProductUseCase productUseCase, IOrderProductService orderProductService, IClientService clientService)
         {
             _orderService = serviceOrder;
@@ -27,6 +29,7 @@ namespace FlowStockManager.Application.Handlers
             _productUseCase = productUseCase;
             _orderProductService = orderProductService;
             _clientService = clientService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ResponsePage<IEnumerable<OrderDto>>> GetOrdersAsync()
@@ -57,6 +60,7 @@ namespace FlowStockManager.Application.Handlers
             order = await _orderProductService.RegisterAsync(order.OrderProducts);
             order = await _orderService.GetOrderAsync(order.Id);
             var dto = _orderUseCase.ToDto(order);
+            await _unitOfWork.CommitAsync();
             return Response<OrderDto>.Factories.CreateResponse(dto, true);
         }
 
@@ -67,6 +71,7 @@ namespace FlowStockManager.Application.Handlers
             Order.UpdateOrderStatus(order, OrderStatus.Processed);
             OrderProduct.UpdateOrder(orderProduct, order);
             await _orderProductService.ConsumeProducts(orderProduct, order);
+            await _unitOfWork.CommitAsync();
         }
 
         private static void ClientActived(Client client)

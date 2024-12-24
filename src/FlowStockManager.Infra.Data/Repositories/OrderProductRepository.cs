@@ -24,35 +24,23 @@ namespace FlowStockManager.Infra.Data.Repositories
             return await query.ToListAsync();
         }
 
+        public Task<IEnumerable<OrderProduct>> FindDataBaseAsync(Guid orderId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Order> RegisterDataBaseAsync(IEnumerable<OrderProduct> orderProducts)
         {
-            using (var transaction = await _context.Database.BeginTransactionAsync())
-            {
-                try
+                foreach (var item in orderProducts)
                 {
-                    foreach (var item in orderProducts)
+                    var existingProduct = await _context.Products.FindAsync(item.ProductId);
+                    if (existingProduct != null)
                     {
-                        var existingProduct = await _context.Products.FindAsync(item.ProductId);
-                        if (existingProduct != null)
-                        {
-                            item.AddProduct(existingProduct);
-                        }
-                        await _context.OrderProducts.AddAsync(item);
+                        item.AddProduct(existingProduct);
                     }
-                    var respSql = await _context.SaveChangesAsync();
-                    if (respSql > 0)
-                    {
-                        await transaction.CommitAsync();
-                        return orderProducts.First().Orders;
-                    }
-                    throw new Exception("Ocorreu um problema ao registrar mudanças no banco");
+                    await _context.OrderProducts.AddAsync(item);
                 }
-                catch (Exception ex)
-                {
-                    await transaction.RollbackAsync();
-                    throw new Exception(ex.Message);
-                }
-            }
+            return orderProducts.First().Orders;
         }
 
         public async Task ConsumeAsync(IEnumerable<OrderProduct> orderProducts, Order order)
@@ -69,7 +57,6 @@ namespace FlowStockManager.Infra.Data.Repositories
                     _context.Orders.Update(order);
                 }
             }
-            await _context.SaveChangesAsync();
         }
     }
 }

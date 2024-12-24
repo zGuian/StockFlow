@@ -1,5 +1,6 @@
 ﻿using FlowStockManager.Domain.DTOs.Products;
 using FlowStockManager.Domain.Interfaces.Handlers;
+using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Domain.Interfaces.Services;
 using FlowStockManager.Domain.Interfaces.UseCases;
 using FlowStockManager.Domain.Requests.ProductRequests;
@@ -9,13 +10,15 @@ namespace FlowStockManager.Application.Handlers
 {
     public class ProductHandler : IProductHandler
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IProductUseCase _useCase;
         private readonly IProductService _serviceProduct;
 
-        public ProductHandler(IProductUseCase useCase, IProductService service)
+        public ProductHandler(IProductUseCase useCase, IProductService service, IUnitOfWork unitOfWork)
         {
             _useCase = useCase;
             _serviceProduct = service;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ResponsePage<IEnumerable<ProductDto>>> GetProductsAsync(int take, int skip)
@@ -36,6 +39,7 @@ namespace FlowStockManager.Application.Handlers
         {
             var entity = _useCase.CreateProduct(productRequest, productRequest.SupplierId);
             entity = await _serviceProduct.RegisterAsync(entity);
+            await _unitOfWork.CommitAsync();
             var dto = _useCase.ToDto(entity);
             return Response<ProductDto>.Factories.CreateResponse(dto, true);
         }
@@ -44,6 +48,7 @@ namespace FlowStockManager.Application.Handlers
         {
             var entity = _useCase.ToEntity(productRequest);
             entity = await _serviceProduct.UpdateAsync(entity);
+            await _unitOfWork.CommitAsync();
             var dto = _useCase.ToDto(entity);
             return Response<ProductDto>.Factories.CreateResponse(dto, true);
         }
@@ -51,6 +56,7 @@ namespace FlowStockManager.Application.Handlers
         public async Task DeleteProductAsync(Guid id)
         {
             await _serviceProduct.DeleteAsync(id);
+            await _unitOfWork.CommitAsync();
         }
     }
 }
