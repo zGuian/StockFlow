@@ -39,13 +39,13 @@ public class Product
         }
     }
 
-    public static void ConsumeProduct(Product product, int ProductQuantity)
+    public void ConsumeProduct(int ProductQuantity)
     {
-        if (product.StockQuantity < ProductQuantity)
+        if (StockQuantity < ProductQuantity)
         {
             throw new Exception("Valor de estoque insuficiente");
         }
-        product.StockQuantity -= ProductQuantity;
+        StockQuantity -= ProductQuantity;
     }
 
     private Product() { }

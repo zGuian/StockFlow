@@ -58,8 +58,10 @@ namespace FlowStockManager.Infra.Data.Repositories
 
         public async Task<Order> UpdateDataBaseAsync(Order order)
         {
-            var entry = _context.Orders.Update(order);
-            return entry.Entity;
+            var orderFound = await FindDataBaseAsync(order.Id);
+            _context.Entry(orderFound).CurrentValues.SetValues(order);
+            await _context.SaveChangesAsync();
+            return orderFound;
         }
 
         public async Task DeleteAsync(Guid id)

@@ -9,6 +9,7 @@ namespace FlowStockManager.Infra.Data.MapperMigration
         public void Configure(EntityTypeBuilder<Client> builder)
         {
             builder.ToTable("clientes");
+            builder.HasKey(c => c.Id);
 
             builder.Property(c => c.Id)
                 .ValueGeneratedNever();

@@ -6,11 +6,11 @@ namespace FlowStockManager.Domain.Interfaces.Services
     {
         Task<IEnumerable<Product>> GetAsync(int take, int skip);
         Task<Product> GetAsync(Guid id);
-        Task<IEnumerable<Product>> GetAsync(IEnumerable<Product> products);
         Task<Product> RegisterAsync(Product entity);
         Task<Product> UpdateAsync(Product entity);
         Task DeleteAsync(Guid id);
-        bool VerifyDisponible(IEnumerable<Product> products);
-        void ConsumeProducts(IEnumerable<Product> products);
+        Task<IEnumerable<Tuple<Product, int>>> VerifyDisponibleAndReturnProduct(Dictionary<Guid, int> dictionary);
+        Task ConsumeProductsAsync(IEnumerable<Product> products);
+        Task ConsumeProductsAsync(IEnumerable<Tuple<Product, int>> tuple);
     }
 }

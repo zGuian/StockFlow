@@ -20,7 +20,7 @@ namespace FlowStockManager.Infra.Data.MapperMigration
                 .HasMaxLength(100);
 
             builder.Property(s => s.Contact)
-                .HasMaxLength(30);
+                .HasMaxLength(60);
 
             builder.Property(s => s.Address)
                 .HasMaxLength(250);

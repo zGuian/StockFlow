@@ -20,12 +20,6 @@ namespace FlowStockManager.Application.Services
             return await _repository.FindDataBaseAsync(take, skip);
         }
 
-        public async Task<IEnumerable<Product>> GetAsync(IEnumerable<Product> products)
-        {
-            var productsIds = GetProductIds(products);
-            return await _repository.FindDataBaseAsync(productsIds);
-        }
-
         public async Task<Product> GetAsync(Guid id)
         {
             return await _repository.FindDataBaseAsync(id);
@@ -46,20 +40,19 @@ namespace FlowStockManager.Application.Services
             return _unitOfWork.ProductRepository.DeleteAsync(id);
         }
 
-        public bool VerifyDisponible(IEnumerable<Product> products)
+        public Task<IEnumerable<Tuple<Product, int>>> VerifyDisponibleAndReturnProduct(Dictionary<Guid, int> dictionary)
         {
-            var productsIds = GetProductIds(products);
-            return _repository.VerifyDataBaseDisponibleProduct(productsIds);
+            return _repository.VerifyDataBaseDisponibleProduct(dictionary);
         }
 
-        public void ConsumeProducts(IEnumerable<Product> products)
+        public async Task ConsumeProductsAsync(IEnumerable<Product> products)
         {
-            _unitOfWork.ProductRepository.UpdateDataBaseAsync(products);
+            await _unitOfWork.ProductRepository.UpdateDataBaseAsync(products);
         }
-
-        private static List<Guid> GetProductIds(IEnumerable<Product> products)
+        
+        public async Task ConsumeProductsAsync(IEnumerable<Tuple<Product, int>> tuple)
         {
-            return products.Select(p => p.Id).ToList();
+            await _unitOfWork.ProductRepository.UpdateDataBaseAsync(tuple);
         }
     }
 }

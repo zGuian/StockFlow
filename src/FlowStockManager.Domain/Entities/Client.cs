@@ -24,14 +24,6 @@ namespace FlowStockManager.Domain.Entities
 
         public virtual ICollection<Order>? Orders { get; private set; }
 
-        public static class Factories
-        {
-            public static Client NewClient(string name, string email, string? phone, string deliveryAddress)
-            {
-                return new Client(name, email, phone, deliveryAddress);
-            }
-        }
-
         private Client() { }
 
         private Client(string name, string email, string? phone, string deliveryAddress)
@@ -42,6 +34,22 @@ namespace FlowStockManager.Domain.Entities
             Phone = phone;
             DeliveryAddress = deliveryAddress.ToLower().Trim();
             IsActive = true;
+        }
+
+        public static class Factories
+        {
+            public static Client NewClient(string name, string email, string? phone, string deliveryAddress)
+            {
+                return new Client(name, email, phone, deliveryAddress);
+            }
+        }
+
+        public void VerifyClientActived()
+        {
+            if (!IsActive)
+            {
+                throw new Exception("Cliente não esta ativo, impossibilitando de realizar a criação do pedido!");
+            }
         }
     }
 }

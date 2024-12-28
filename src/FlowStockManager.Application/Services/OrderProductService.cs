@@ -15,8 +15,8 @@ namespace FlowStockManager.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task ConsumeProducts(IEnumerable<OrderProduct> orderProduct, Order order) =>
-            await _repository.ConsumeAsync(orderProduct, order);
+        public async Task ConsumeProducts(Order order) =>
+            await _repository.ConsumeAsync(order);
 
         public async Task<IEnumerable<OrderProduct>> GetAsync(Guid id) =>
             await _repository.FindAllProductByOrder(id);

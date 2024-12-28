@@ -3,7 +3,6 @@ using FlowStockManager.Domain.Exceptions;
 using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace FlowStockManager.Infra.Data.Repositories
 {
@@ -35,6 +34,28 @@ namespace FlowStockManager.Infra.Data.Repositories
             throw new NotFoundExceptions($"Não encontrado nenhum produto com Id: [{id}]");
         }
 
+        public async Task<IEnumerable<Tuple<Product, int>>> FindDataBaseAsync(Dictionary<Guid, int> dict)
+        {
+            var ids = dict.Keys.ToList();
+            var resultDb = await _context.Products
+                .AsNoTracking()
+                .Where(x => ids.Contains(x.Id))
+                .ToListAsync();
+            if (resultDb.Count != 0)
+            {
+                var newTuple = new List<Tuple<Product, int>>();
+                foreach (var item in resultDb)
+                {
+                    if (dict.TryGetValue(item.Id, out var value))
+                    {
+                        newTuple.Add(Tuple.Create(item, value));
+                    }
+                }
+                return newTuple;
+            }
+            throw new NotFoundExceptions($"Não encontrado nenhum produto");
+        }
+
         public async Task<IEnumerable<Product>> FindDataBaseAsync(IEnumerable<Guid> productIds)
         {
             var products = new List<Product>();
@@ -53,8 +74,8 @@ namespace FlowStockManager.Infra.Data.Repositories
                 Console.WriteLine("------------------------------------------------------------------------------------");
             }
             if (products.Count < 0) { throw new NotFoundExceptions("Não encontrado nenhum produto."); }
-                return products;
-            }
+            return products;
+        }
 
         public async Task<Product> RegisterDataBaseAsync(Product entity)
         {
@@ -85,9 +106,52 @@ namespace FlowStockManager.Infra.Data.Repositories
             return _context.Products.Where(p => productsId.Contains(p.Id)).All(p => p.StockQuantity >= 1);
         }
 
-        public void UpdateDataBaseAsync(IEnumerable<Product> products)
+        public async Task<IEnumerable<Tuple<Product, int>>> VerifyDataBaseDisponibleProduct(Dictionary<Guid, int> dictionary)
         {
-            _context.Products.UpdateRange(products);
+            var productIds = dictionary.Keys.ToList();
+            var products = await _context.Products.Where(p => productIds.Contains(p.Id)).ToListAsync();
+            var productDict = products.ToDictionary(p => p.Id);
+            var tuples = new List<Tuple<Product, int>>();
+            foreach (var kvp in dictionary)
+            {
+                if (productDict.TryGetValue(kvp.Key, out var product))
+                {
+                    tuples.Add(new Tuple<Product, int>(product, kvp.Value));
+                }
+            }
+            return tuples;
+        }
+
+        public async Task UpdateDataBaseAsync(IEnumerable<Product> products)
+        {
+            var productsIds = products.Select(x => x.Id);
+            var result = await _context.Products
+                .Where(p => productsIds.Contains(p.Id))
+                .ToListAsync();
+            
+            var productArray = new Product[result.Count];
+            for (int i = 0; i < result.Count; i++)
+            {
+                productArray[i] = result[i];
+            }
+            _context.Products.UpdateRange(productArray);
+        }
+
+        public async Task UpdateDataBaseAsync(IEnumerable<Tuple<Product, int>> tuple)
+        {
+            var productsIds = tuple.Select(x => x.Item1.Id);
+            var quantity = tuple.Select(x => x.Item2).ToArray();
+            var result = await _context.Products
+                .Where(p => productsIds.Contains(p.Id))
+                .ToListAsync();
+            result = result.OrderBy(p => productsIds.ToList().IndexOf(p.Id)).ToList();
+            var productArray = new Product[result.Count];
+            for (int i = 0; i < result.Count; i++)
+            {
+                result[i].ConsumeProduct(quantity[i]);
+                productArray[i] = result[i];
+            }
+            _context.Products.UpdateRange(productArray);
         }
 
         public async Task DeleteAsync(Guid id)
