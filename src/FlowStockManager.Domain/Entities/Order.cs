@@ -14,6 +14,17 @@ namespace FlowStockManager.Domain.Entities
         public DateTime OrderDate { get; private set; }
         public OrderStatus OrderStatus { get; private set; }
 
+        private Order() { }
+
+        private Order(Client client)
+        {
+            Id = Guid.NewGuid();
+            ClientId = client.Id;
+            OrderDate = DateTime.UtcNow;
+            OrderStatus = OrderStatus.Pending;
+            OrderProducts = new List<OrderProduct>();
+        }
+
         public static class Factories
         {
             public static Order NewOrder(Client client)
@@ -22,47 +33,27 @@ namespace FlowStockManager.Domain.Entities
             }
         }
 
-        public static void UpdateOrderStatus(Order order, OrderStatus status)
+        public void UpdateOrderStatusForProcessed()
         {
-            switch (order.OrderStatus)
+            OrderStatus = OrderStatus.Processed;
+        }
+
+        public void UpdateOrderStatus(OrderStatus status)
+        {
+            OrderStatus = status;
+        }
+
+        public void AddOrderProducts(IEnumerable<OrderProduct> orderProducts)
+        {
+            foreach (var item in orderProducts)
             {
-                case OrderStatus.Pending:
-                    if (status == OrderStatus.Processed || status == OrderStatus.Canceled)
-                    {
-                        order.OrderStatus = status;
-                    }
-                    break;
-                case OrderStatus.Processed:
-                    if (status == OrderStatus.Concluded || status == OrderStatus.Canceled)
-                    {
-                        order.OrderStatus = status;
-                    }
-                    break;
-                case OrderStatus.Concluded:
-                    order.OrderStatus = OrderStatus.Concluded;
-                    break;
-                case OrderStatus.Canceled:
-                    order.OrderStatus = OrderStatus.Canceled;
-                    break;
-                default:
-                    throw new ErrorResponse("Status do pedido esta invalido");
+                OrderProducts.Add(item);
             }
         }
 
-        public static void AddOrderProducts(Order order, IEnumerable<OrderProduct> orderProducts)
+        public void UpdateOrder(Order order)
         {
-            order.OrderProducts = orderProducts.ToList();
-        }
-
-        private Order() { }
-
-        private Order(Client client)
-        {
-            Id = Guid.NewGuid();
-            ClientId = client.Id;
-            Client = client;
-            OrderDate = DateTime.UtcNow;
-            OrderStatus = OrderStatus.Pending;
+            OrderStatus = order.OrderStatus;
         }
     }
 }

@@ -8,6 +8,6 @@ namespace FlowStockManager.Domain.Interfaces.Repositories
         abstract Task<TEntity> FindDataBaseAsync(Guid id);
         abstract Task<TEntity> RegisterDataBaseAsync(TEntity entity);
         abstract Task<TEntity> UpdateDataBaseAsync(TEntity entity);
-        abstract Task<int> DeleteAsync(Guid id);
+        abstract Task DeleteAsync(Guid id);
     }
 }

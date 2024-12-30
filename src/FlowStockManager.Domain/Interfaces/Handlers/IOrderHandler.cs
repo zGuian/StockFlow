@@ -1,7 +1,6 @@
 ﻿using FlowStockManager.Domain.DTOs.Orders;
 using FlowStockManager.Domain.Requests.OrderRequest;
 using FlowStockManager.Domain.Responses.Base;
-using FlowStockManager.Domain.Responses.OrderResponse;
 
 namespace FlowStockManager.Domain.Interfaces.Handlers
 {
@@ -9,7 +8,7 @@ namespace FlowStockManager.Domain.Interfaces.Handlers
     {
         Task<ResponsePage<IEnumerable<OrderDto>>> GetOrdersAsync();
         Task<Response<OrderDto>> GetOrdersAsync(Guid id);
-        Task<Response<OrderDto>> RegisterOrderAsync(CreateOrderRequest orderRequest);
         Task ProcessOrderAsync(Guid orderRequest);
+        Task<Response<OrderDto>> RegisterOrderAsync(CreateOrderRequest orderRequest);
     }
 }

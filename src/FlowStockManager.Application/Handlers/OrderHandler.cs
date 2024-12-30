@@ -2,6 +2,7 @@
 using FlowStockManager.Domain.Entities;
 using FlowStockManager.Domain.Entities.Enums;
 using FlowStockManager.Domain.Interfaces.Handlers;
+using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Domain.Interfaces.Services;
 using FlowStockManager.Domain.Interfaces.UseCases;
 using FlowStockManager.Domain.Requests.OrderRequest;
@@ -11,22 +12,22 @@ namespace FlowStockManager.Application.Handlers
 {
     public class OrderHandler : IOrderHandler
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IOrderService _orderService;
         private readonly IProductService _productService;
         private readonly IOrderUseCase _orderUseCase;
-        private readonly IProductUseCase _productUseCase;
         private readonly IOrderProductService _orderProductService;
         private readonly IClientService _clientService;
 
-        public OrderHandler(IOrderService serviceOrder, IOrderUseCase useCase, IProductService productService,
-            IProductUseCase productUseCase, IOrderProductService orderProductService, IClientService clientService)
+        public OrderHandler(IUnitOfWork unitOfWork, IOrderService serviceOrder, IOrderUseCase useCase, IProductService productService,
+            IOrderProductService orderProductService, IClientService clientService)
         {
             _orderService = serviceOrder;
             _orderUseCase = useCase;
             _productService = productService;
-            _productUseCase = productUseCase;
             _orderProductService = orderProductService;
             _clientService = clientService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ResponsePage<IEnumerable<OrderDto>>> GetOrdersAsync()
@@ -46,43 +47,55 @@ namespace FlowStockManager.Application.Handlers
         public async Task<Response<OrderDto>> RegisterOrderAsync(CreateOrderRequest orderRequest)
         {
             var client = await _clientService.GetAsync(orderRequest.ClientId);
-            ClientActived(client);
-            var products = _productUseCase.EnumerableToEntity(orderRequest.Products);
-            ProductDisponible(products);
+            client.VerifyClientActived();
             var order = _orderUseCase.CreateOrder(client);
+            var dict = CreateDictionary(orderRequest);
+            var tuple = await ProductDisponible(dict);
             await _orderService.RegisterAsync(order);
-            products = await _productService.GetAsync(products);
-            Order.AddOrderProducts(order, OrderProduct.Factories.NewOrderProduct(
-                order, products, orderRequest.Products.Select(p => p.QtdProduct)));
-            order = await _orderProductService.RegisterAsync(order.OrderProducts);
-            order = await _orderService.GetOrderAsync(order.Id);
+            var op = OrderProduct.Factories.NewOrderProduct(order, tuple);
+            order.AddOrderProducts(op);
+            order = await _orderProductService.RegisterAsync(op);
+            await _unitOfWork.CommitAsync();
             var dto = _orderUseCase.ToDto(order);
             return Response<OrderDto>.Factories.CreateResponse(dto, true);
         }
 
-        public async Task ProcessOrderAsync(Guid orderId)
+        public async Task ProcessOrderAsync(Guid id)
         {
-            var orderProduct = await _orderProductService.GetAsync(orderId);
+            var orderProduct = await _orderProductService.GetAsync(id);
             var order = orderProduct.First().Orders;
-            Order.UpdateOrderStatus(order, OrderStatus.Processed);
-            OrderProduct.UpdateOrder(orderProduct, order);
-            await _orderProductService.ConsumeProducts(orderProduct, order);
+            order.UpdateOrderStatusForProcessed();
+            await _orderService.UpdateAsync(order);
+            var tuple = CreateTuple(orderProduct);
+            await _productService.ConsumeProductsAsync(tuple);
+            await _unitOfWork.CommitAsync();
         }
 
-        private static void ClientActived(Client client)
+        private async Task<IEnumerable<Tuple<Product, int>>> ProductDisponible(Dictionary<Guid, int> dict)
         {
-            if (!client.IsActive)
-            {
-                throw new Exception("Cliente não esta ativo, impossibilitando de realizar a criação do pedido!");
-            }
+            var tuple = await _productService.VerifyDisponibleAndReturnProduct(dict) 
+                ?? throw new NotImplementedException("Não tem produto disponivel");
+            return tuple;
         }
 
-        private void ProductDisponible(IEnumerable<Product> products)
+        private static Dictionary<Guid, int> CreateDictionary(CreateOrderRequest orderRequest)
         {
-            if (!_productService.VerifyDisponible(products))
+            var dictionary = new Dictionary<Guid, int>();
+            foreach (var item in orderRequest.Products)
             {
-                throw new NotImplementedException("Não tem produto disponivel");
+                dictionary.Add(item.ProductId, item.QtdProduct);
             }
+            return dictionary;
+        }
+
+        private static List<Tuple<Product, int>> CreateTuple(IEnumerable<OrderProduct> orderProducts)
+        {
+            var tuple = new List<Tuple<Product, int>>();
+            foreach (var item in orderProducts)
+            {
+                tuple.Add(Tuple.Create(item.Product, item.ProductQuantity));
+            }
+            return tuple;
         }
     }
 }

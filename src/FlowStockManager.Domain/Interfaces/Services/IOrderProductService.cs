@@ -6,6 +6,6 @@ namespace FlowStockManager.Domain.Interfaces.Services
     {
         Task<IEnumerable<OrderProduct>> GetAsync(Guid id);
         Task<Order> RegisterAsync(IEnumerable<OrderProduct> orderProduct);
-        Task ConsumeProducts(IEnumerable<OrderProduct> orderProduct, Order order);
+        Task ConsumeProducts(Order order);
     }
 }

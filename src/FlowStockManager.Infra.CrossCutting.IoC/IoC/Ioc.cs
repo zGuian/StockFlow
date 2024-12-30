@@ -50,6 +50,7 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
             #endregion Services
 
             #region Repositories
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();

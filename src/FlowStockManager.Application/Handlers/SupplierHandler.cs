@@ -1,5 +1,6 @@
 ﻿using FlowStockManager.Domain.DTOs.Suppliers;
 using FlowStockManager.Domain.Interfaces.Handlers;
+using FlowStockManager.Domain.Interfaces.Repositories;
 using FlowStockManager.Domain.Interfaces.Services;
 using FlowStockManager.Domain.Interfaces.UseCases;
 using FlowStockManager.Domain.Requests.SupplierRequests;
@@ -9,13 +10,15 @@ namespace FlowStockManager.Application.Handlers
 {
     public class SupplierHandler : ISupplierHandler
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ISupplierService _service;
         private readonly ISupplierUseCase _useCase;
 
-        public SupplierHandler(ISupplierService supplierService, ISupplierUseCase useCase)
+        public SupplierHandler(ISupplierService supplierService, ISupplierUseCase useCase, IUnitOfWork unitOfWork)
         {
             _useCase = useCase;
             _service = supplierService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ResponsePage<IEnumerable<SupplierDto>>> GetSuppliersAsync(int skip, int take)
@@ -36,6 +39,7 @@ namespace FlowStockManager.Application.Handlers
         {
             var entity = _useCase.CreateSupplier(supplierRequest);
             entity = await _service.RegisterAsync(entity);
+            await _unitOfWork.CommitAsync();
             var dto = _useCase.ToDto(entity);
             return Response<SupplierDto>.Factories.CreateResponse(dto, true);
         }
@@ -44,6 +48,7 @@ namespace FlowStockManager.Application.Handlers
         {
             var entity = _useCase.ToEntity(supplierRequest);
             entity = await _service.UpdateAsync(entity);
+            await _unitOfWork.CommitAsync();
             var dto = _useCase.ToDto(entity);
             return Response<SupplierDto>.Factories.CreateResponse(dto, true);
         }
@@ -51,6 +56,7 @@ namespace FlowStockManager.Application.Handlers
         public async Task DeleteSupplier(Guid id)
         {
             await _service.DeleteAsync(id);
+            await _unitOfWork.CommitAsync();
         }
     }
 }

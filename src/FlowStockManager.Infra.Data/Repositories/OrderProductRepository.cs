@@ -24,52 +24,60 @@ namespace FlowStockManager.Infra.Data.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<Order> RegisterDataBaseAsync(IEnumerable<OrderProduct> orderProducts)
+        public Task<IEnumerable<OrderProduct>> FindDataBaseAsync(Guid orderId)
         {
-            using (var transaction = await _context.Database.BeginTransactionAsync())
-            {
-                try
-                {
-                    foreach (var item in orderProducts)
-                    {
-                        var existingProduct = await _context.Products.FindAsync(item.ProductId);
-                        if (existingProduct != null)
-                        {
-                            item.AddProduct(existingProduct);
-                        }
-                        await _context.OrderProducts.AddAsync(item);
-                    }
-                    var respSql = await _context.SaveChangesAsync();
-                    if (respSql > 0)
-                    {
-                        await transaction.CommitAsync();
-                        return orderProducts.First().Orders;
-                    }
-                    throw new Exception("Ocorreu um problema ao registrar mudanças no banco");
-                }
-                catch (Exception ex)
-                {
-                    await transaction.RollbackAsync();
-                    throw new Exception(ex.Message);
-                }
-            }
+            throw new NotImplementedException();
         }
 
-        public async Task ConsumeAsync(IEnumerable<OrderProduct> orderProducts, Order order)
+        public async Task<Order> RegisterDataBaseAsync(IEnumerable<OrderProduct> orderProducts)
         {
             foreach (var item in orderProducts)
             {
-                var product = await _context.Products
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(p => p.Id == item.ProductId);
-                if (product != null)
+                var existingProduct = await _context.Products.FindAsync(item.ProductId);
+                if (existingProduct != null)
                 {
-                    OrderProduct.UpdateOrderProduct(item, product, item.ProductQuantity);
-                    _context.Products.Update(product);
-                    _context.Orders.Update(order);
+                    item.AddProduct(existingProduct);
                 }
+                await _context.OrderProducts.AddAsync(item);
             }
-            await _context.SaveChangesAsync();
+            return orderProducts.First().Orders;
+        }
+
+        //public async Task ConsumeAsync(IEnumerable<OrderProduct> orderProducts, Order order)
+        //{
+        //    foreach (var item in orderProducts)
+        //    {
+        //        var product = await _context.Products
+        //            .AsNoTracking()
+        //            .FirstOrDefaultAsync(p => p.Id == item.ProductId);
+        //        if (product != null)
+        //        {
+        //            item.UpdateOrderProduct(product, item.ProductQuantity);
+        //            _context.Products.Update(product);
+        //            _context.Orders.Update(order);
+        //        }
+        //    }
+        //}
+
+        public async Task ConsumeAsync(Order order)
+        {
+            var listOp = await _context.OrderProducts
+                .AsNoTracking()
+                .Where(op => op.OrderId == order.Id)
+                .ToListAsync();
+            var updates = new List<OrderProduct>();
+            foreach (var item in listOp)
+            {
+                item.UpdateOrderProduct(item.Product, item.ProductQuantity);
+                updates.Add(item);
+            }
+            AddUpdate(updates);
+        }
+
+        private void AddUpdate(List<OrderProduct> orderProducts)
+        {
+            _context.Products.UpdateRange(orderProducts.Select(x => x.Product));
+            _context.Orders.UpdateRange(orderProducts.Select(x => x.Orders));
         }
     }
 }
