@@ -2,7 +2,7 @@
 
 namespace FlowStockManager.Domain.Interfaces.Repositories.Commands
 {
-    public interface IProductCommandRepository : IBaseCommandRepository<Product, string>
+    public interface IUserCommandRepository : IBaseCommandRepository<User, string>
     {
     }
 }

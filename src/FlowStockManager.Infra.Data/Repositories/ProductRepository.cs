@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlowStockManager.Infra.Data.Repositories
 {
-    public class ProductRepository : BaseRepository<Product, Guid>, IProductQueryRepository, IProductCommandRepository
+    public class ProductRepository : BaseRepository<Product, string>, IProductQueryRepository, IProductCommandRepository
     {
         private readonly AppDbContext _context;
 
