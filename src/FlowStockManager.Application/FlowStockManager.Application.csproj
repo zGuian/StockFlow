@@ -11,4 +11,8 @@
     <ProjectReference Include="..\FlowStockManager.Infra.CrossCutting\FlowStockManager.Infra.CrossCutting.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Events\Handlers\" />
+  </ItemGroup>
+
 </Project>

@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
-using FlowStockManager.Application.Handlers;
-using FlowStockManager.Application.Handlers.Interfaces;
-using FlowStockManager.Application.Services;
-using FlowStockManager.Application.Services.Interfaces;
-using FlowStockManager.Application.UseCases;
-using FlowStockManager.Application.UseCases.Interfaces;
-using FlowStockManager.Domain.Interfaces;
+using FlowStockManager.Application.Converters;
+using FlowStockManager.Application.Converters.Interfaces;
+using FlowStockManager.Application.ProductApp.Command;
+using FlowStockManager.Application.ProductApp.Interfaces;
+using FlowStockManager.Application.ProductApp.Queries;
+using FlowStockManager.Application.SupplierApp.Command;
+using FlowStockManager.Application.SupplierApp.Interfaces;
+using FlowStockManager.Application.SupplierApp.Queries;
+using FlowStockManager.Domain.Interfaces.Repositories.Commands;
+using FlowStockManager.Domain.Interfaces.Repositories.Queries;
 using FlowStockManager.Infra.CrossCutting.Configuration;
 using FlowStockManager.Infra.CrossCutting.Profiles;
 using FlowStockManager.Infra.Data.Context;
@@ -20,41 +23,49 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
     {
         public static IServiceCollection IoC(this IServiceCollection services, IConfiguration configuration)
         {
-            services.DependencyInject(configuration);
+            services.ProductApplication();
+            services.SupplierApplication();
+            services.AddConvertersDI();
+            services.AddRepositoriesDI();
+            services.ConfigurationDataBaseRelational(configuration);
+            services.ConfigurationAutoMapper();
             services.SwaggerConfiguration();
             return services;
         }
 
-        private static IServiceCollection DependencyInject(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection ProductApplication(this IServiceCollection services)
         {
-            #region Handler
-            services.AddScoped<IProductHandler, ProductHandler>();
-            services.AddScoped<ISupplierHandler, SupplierHandler>();
-            #endregion Handler
+            services.AddScoped<ICreateProductCommand, CreateProductCommand>();
+            services.AddScoped<IDeleteProductCommand, DeleteProductCommand>();
+            services.AddScoped<IGetProductByIdQuery, GetProductByIdQuery>();
+            services.AddScoped<IGetProductsPageableQuery, GetProductsPageableQuery>();
+            services.AddScoped<IUpdateProductCommand, UpdateProductCommand>();
+            return services;
+        }
 
-            #region UseCases
-            services.AddScoped<IProductUseCase, ProductUseCase>();
-            services.AddScoped<ISupplierUseCase, SupplierUseCase>();
-            #endregion UseCases
+        private static IServiceCollection SupplierApplication(this IServiceCollection services)
+        {
+            services.AddScoped<ICreateSupplierCommand, CreateSupplierCommand>();
+            services.AddScoped<IDeleteSupplierCommand, DeleteSupplierCommand>();
+            services.AddScoped<IGetSupplierByIdQuery, GetSupplierByIdQuery>();
+            services.AddScoped<IGetSuppliersPageableQuery, GetSuppliersPageableQuery>();
+            services.AddScoped<IUpdateSupplierCommand, UpdateSupplierCommand>();
+            return services;
+        }
 
-            #region Services
-            services.AddScoped<IProductService,ProductService>();
-            services.AddScoped<ISupplierService, SupplierService>();
-            #endregion Services
+        private static IServiceCollection AddRepositoriesDI(this IServiceCollection services)
+        {
+            services.AddScoped<IProductCommandRepository, ProductRepository>();
+            services.AddScoped<IProductQueryRepository, ProductRepository>();
+            services.AddScoped<ISupplierCommandRepository, SupplierRepository>();
+            services.AddScoped<ISupplierQueryRepository, SupplierRepository>();
+            return services;
+        }
 
-            #region Repositories
-            services.AddScoped<IProductRepository,ProductRepository>();
-            services.AddScoped<ISupplierRepository, SupplierRepository>();
-            #endregion Repositories
-
-            #region Database
-            services.ConfigurationDataBaseRelational(configuration);
-            #endregion Database
-
-            #region Utils
-            services.ConfigurationAutoMapper();
-            #endregion Utils
-
+        private static IServiceCollection AddConvertersDI(this IServiceCollection services)
+        {
+            services.AddScoped<IProductConverter, ProductConverter>();
+            services.AddScoped<ISupplierConverter, SupplierConverter>();
             return services;
         }
 
