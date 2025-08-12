@@ -15,5 +15,5 @@ public record CreateProductRequest
     public int StockQuantity { get; init; }
 
     [Required]
-    public Guid SupplierId { get; init; }
+    public required string SupplierId { get; init; }
 }

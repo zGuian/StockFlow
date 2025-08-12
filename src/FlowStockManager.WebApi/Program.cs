@@ -1,5 +1,5 @@
-using FlowStockManager.WebApi.Middlewares;
 using FlowStockManager.Infra.CrossCutting.IoC.IoC;
+using FlowStockManager.WebApi.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.IoC(builder.Configuration);
@@ -8,8 +8,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionsFilter)));
+
 var app = builder.Build();
-app.UseMiddleware(typeof(GlobalErrorHandlingMiddleware));
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
