@@ -21,5 +21,28 @@ namespace FlowStockManager.Infra.Data.Repositories
             query.Skip((skip - 1) * take).Take(take);
             return await query.ToListAsync();
         }
+
+        public async Task<Product[]> FindProductsAsync(Dictionary<string, int> values)
+        {
+            try
+            {
+                var query = _context.Products.AsQueryable();
+
+                foreach (var item in values)
+                {
+                    var key = item.Key;
+                    var value = item.Value;
+                    query = query.Where(p => p.Id.Equals(key, StringComparison.OrdinalIgnoreCase) && p.StockQuantity >= value);
+                }
+
+                return await query.ToArrayAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void Update(IEnumerable<Product> products) => _context.Products.UpdateRange(products);
     }
 }

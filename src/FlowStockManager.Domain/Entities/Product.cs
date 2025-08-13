@@ -29,6 +29,14 @@ namespace FlowStockManager.Domain.Entities
             }
         }
 
+        public void ConsumeProduct(int quantity)
+        {
+            if (StockQuantity > quantity)
+            {
+                StockQuantity -= quantity;
+            }
+        }
+
         private Product(string id, string name, string? description, decimal price, int stockQuantity, 
             string supplierId) : base(id)
         {

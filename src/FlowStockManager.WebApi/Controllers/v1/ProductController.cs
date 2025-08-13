@@ -60,5 +60,12 @@ namespace FlowStockManager.WebApi.Controllers.v1
             await delete.ExecuteAsync(id);
             return NoContent();
         }
+
+        public async Task<IActionResult> ConsumeProduct([FromServices] IConsumeProductCommand consume, 
+            [FromBody] ConsumeProductRequest[] request)
+        {
+            await consume.ExecuteAsync(request);
+            return NoContent();
+        }
     }
 }
