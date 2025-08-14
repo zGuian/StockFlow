@@ -1,0 +1,11 @@
+﻿<Application x:Class="FlowStockManager.Desktop.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:FlowStockManager.Desktop.ViewModels"
+             xmlns:views="clr-namespace:FlowStockManager.Desktop.Views.ProductViews">
+    <Application.Resources>
+        <DataTemplate DataType="{x:Type vm:ProductViewModel}">
+            <views:HomeProductView/>
+        </DataTemplate>
+    </Application.Resources>
+</Application>
