@@ -7,13 +7,13 @@ using FlowStockManager.Domain.Requests.UserRequests;
 
 namespace FlowStockManager.Application.UserApp.Command
 {
-    public sealed class CreateUserCommand : ICreateUserCommand, ICommandBase<CreateUserRequest, bool>
+    internal class UpdateUserCommand : IUpdateUserCommand, ICommandBase<UpdateUserRequest, bool>
     {
         private readonly IUserCommandRepository _commandRepository;
         private readonly IUserConverter _converter;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateUserCommand(IUserCommandRepository commandRepository, IUserConverter converter, IUnitOfWork unitOfWork)
+        public UpdateUserCommand(IUserCommandRepository commandRepository, IUserConverter converter, IUnitOfWork unitOfWork)
         {
             _commandRepository = commandRepository;
             _converter = converter;
@@ -21,17 +21,16 @@ namespace FlowStockManager.Application.UserApp.Command
         }
 
         [Obsolete("METODO NÃO ESTA FUNCIONAL", false)]
-        public async Task<bool> ExecuteAsync(CreateUserRequest userRequest)
+        public async Task<bool> ExecuteAsync(UpdateUserRequest request)
         {
-            ValidateInput(userRequest);
-            var user = _converter.CreateUser(userRequest);
-            await _commandRepository.RegisterAsync(user);
+            ValidateInput(request);
+            var user = _converter.ToEntity(request);
+            _commandRepository.Update(user);
             await _unitOfWork.CommitAsync();
-            await Task.Delay(TimeSpan.FromSeconds(3));
             return true;
         }
 
-        private void ValidateInput(CreateUserRequest input)
+        private void ValidateInput(UpdateUserRequest request)
         {
             throw new NotImplementedException();
         }

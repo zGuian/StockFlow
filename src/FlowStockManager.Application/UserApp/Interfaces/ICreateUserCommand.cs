@@ -4,6 +4,6 @@ namespace FlowStockManager.Application.UserApp.Interfaces
 {
     public interface ICreateUserCommand
     {
-        Task ExecuteAsync(CreateUserRequest userRequest);
+        Task<bool> ExecuteAsync(CreateUserRequest userRequest);
     }
 }

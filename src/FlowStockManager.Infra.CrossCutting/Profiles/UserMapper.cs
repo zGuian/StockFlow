@@ -13,6 +13,8 @@ namespace FlowStockManager.Infra.CrossCutting.Profiles
 
             CreateMap<User, UserDto>()
                 .ReverseMap();
+
+            CreateMap<UpdateUserRequest, User>();
         }
     }
 }

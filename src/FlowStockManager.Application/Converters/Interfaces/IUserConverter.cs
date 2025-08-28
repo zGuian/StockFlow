@@ -8,6 +8,7 @@ namespace FlowStockManager.Application.Converters.Interfaces
     {
         User CreateUser(CreateUserRequest userRequest);
         UserDto ToDto(User product);
+        User ToEntity(UpdateUserRequest userRequest);
         IEnumerable<UserDto> ToIEnumerableDto(IEnumerable<Product> products);
     }
 }

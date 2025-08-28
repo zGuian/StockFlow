@@ -8,7 +8,13 @@ namespace FlowStockManager.WebApi.Controllers.v1
     [Route("api/v1/[controller]")]
     public sealed class UserController : ControllerBase
     {
-        public async Task<IActionResult> Register([FromServices]ICreateUserCommand command, [FromBody]CreateUserRequest request)
+        public async Task<IActionResult> Register([FromServices] ICreateUserCommand command, [FromBody] CreateUserRequest request)
+        {
+            await command.ExecuteAsync(request);
+            return NoContent();
+        }
+
+        public async Task<IActionResult> Update([FromServices] IUpdateUserCommand command, [FromBody] UpdateUserRequest request)
         {
             await command.ExecuteAsync(request);
             return NoContent();
