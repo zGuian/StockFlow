@@ -1,7 +1,4 @@
-﻿using System.Data.Common;
-using System.Net.NetworkInformation;
-
-namespace FlowStockManager.Domain.Entities
+﻿namespace FlowStockManager.Domain.Entities
 {
     public sealed class User : EntityBase
     {
@@ -18,6 +15,11 @@ namespace FlowStockManager.Domain.Entities
             {
                 return new User(GenerateId(), firstName, lastName, email, password, userKey, age);
             }
+
+            public static User Create(string firstName, string lastName, string email, string password)
+            {
+                return new User(GenerateId(), firstName, lastName, email, password);
+            }
         }
 
         private User(string id, string firstName, string lastName, string email, string password, string userKey, int age) : base(id)
@@ -28,6 +30,16 @@ namespace FlowStockManager.Domain.Entities
             Password = password;
             UserKey = userKey;
             Age = age;
+        }
+
+        private User(string id, string firstName, string lastName, string email, string password) : base(id)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Password = password;
+            UserKey = "NOT USER KEY";
+            Age = 0;
         }
     }
 }

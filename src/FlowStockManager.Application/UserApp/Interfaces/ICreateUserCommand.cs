@@ -1,10 +1,9 @@
-﻿using FlowStockManager.Domain.Entities;
-using FlowStockManager.Domain.Responses.ProductResponse;
+﻿using FlowStockManager.Domain.Requests.UserRequests;
 
 namespace FlowStockManager.Application.UserApp.Interfaces
 {
     public interface ICreateUserCommand
     {
-        Task<ProductResponseView<User>> ExecuteAsync(User userRequest);
+        Task ExecuteAsync(CreateUserRequest userRequest);
     }
 }
