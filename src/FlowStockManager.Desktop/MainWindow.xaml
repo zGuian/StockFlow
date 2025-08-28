@@ -1,0 +1,77 @@
+﻿<Window x:Class="FlowStockManager.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FlowStockManager.Desktop"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel LastChildFill="True">
+
+        <!-- Header -->
+        <Border DockPanel.Dock="Top" Background="#2D2D30" Height="50">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0">
+                <TextBlock Text="⚙"
+                           FontSize="20"
+                           Foreground="White"
+                           Margin="0,0,10,0" />
+                <TextBlock Text="Meu Projeto - Dashboard"
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           FontSize="16"
+                           FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Status Bar -->
+        <Border DockPanel.Dock="Bottom" Background="#2D2D30" Height="25">
+            <TextBlock Text="Pronto"
+                       VerticalAlignment="Center"
+                       Foreground="White"
+                       FontSize="12"
+                       Margin="10,0"/>
+        </Border>
+
+        <!-- Menu Lateral -->
+        <Border DockPanel.Dock="Left" Background="#3E3E42" Width="200">
+            <StackPanel>
+                <Button Content="🏠 Início"
+                        Foreground="White"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        FontSize="14"
+                        Padding="10"
+                        HorizontalContentAlignment="Left"
+                        Command="{Binding AbrirInicioCommand}"
+                        />
+                <Button Content="📦 Produtos"
+                        Foreground="White"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        FontSize="14"
+                        Padding="10"
+                        HorizontalContentAlignment="Left"
+                        Command="{Binding AbrirProdutosCommand}"
+                        />
+                <Button Content="⚙ Configurações"
+                        Foreground="White"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        FontSize="14"
+                        Padding="10"
+                        HorizontalContentAlignment="Left"
+                        Command="{Binding AbrirConfiguracoesCommand}"
+                        />
+            </StackPanel>
+        </Border>
+
+        <!-- Conteúdo Principal -->
+        <Grid Background="White">
+            <TextBlock Text="Bem-vindo ao sistema!"
+                       FontSize="20"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+        </Grid>
+
+    </DockPanel>
+</Window>

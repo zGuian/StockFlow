@@ -7,6 +7,9 @@ using FlowStockManager.Application.ProductApp.Queries;
 using FlowStockManager.Application.SupplierApp.Command;
 using FlowStockManager.Application.SupplierApp.Interfaces;
 using FlowStockManager.Application.SupplierApp.Queries;
+using FlowStockManager.Application.UserApp.Command;
+using FlowStockManager.Application.UserApp.Interfaces;
+using FlowStockManager.Application.UserApp.Queries;
 using FlowStockManager.Domain.Interfaces.Repositories.Commands;
 using FlowStockManager.Domain.Interfaces.Repositories.Queries;
 using FlowStockManager.Infra.CrossCutting.Configuration;
@@ -25,6 +28,7 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
         {
             services.ProductApplication();
             services.SupplierApplication();
+            services.UserApplication();
             services.AddConvertersDI();
             services.AddRepositoriesDI();
             services.ConfigurationDataBaseRelational(configuration);
@@ -53,12 +57,25 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
             return services;
         }
 
+        private static IServiceCollection UserApplication(this IServiceCollection services)
+        {
+            services.AddScoped<ICreateUserCommand, CreateUserCommand>();
+            services.AddScoped<IUpdateUserCommand, UpdateUserCommand>();
+            services.AddScoped<IDisableUserCommand, DisableUserCommand>();
+            services.AddScoped<IGetUserByIdQuery, GetUserByIdQuery>();
+            return services;
+        }
+
         private static IServiceCollection AddRepositoriesDI(this IServiceCollection services)
         {
             services.AddScoped<IProductCommandRepository, ProductRepository>();
             services.AddScoped<IProductQueryRepository, ProductRepository>();
+
             services.AddScoped<ISupplierCommandRepository, SupplierRepository>();
             services.AddScoped<ISupplierQueryRepository, SupplierRepository>();
+
+            services.AddScoped<IUserCommandRepository, UserRepository>();
+            services.AddScoped<IUserQueryRepository, UserRepository>();
             return services;
         }
 
@@ -66,6 +83,7 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
         {
             services.AddScoped<IProductConverter, ProductConverter>();
             services.AddScoped<ISupplierConverter, SupplierConverter>();
+            services.AddScoped<IUserConverter, UserConverter>();
             return services;
         }
 
@@ -81,6 +99,7 @@ namespace FlowStockManager.Infra.CrossCutting.IoC.IoC
             {
                 mc.AddProfile(new ProductMapper());
                 mc.AddProfile(new SupplierMapper());
+                mc.AddProfile(new UserMapper());
             });
             return services.AddSingleton(mappingConfig.CreateMapper());
         }

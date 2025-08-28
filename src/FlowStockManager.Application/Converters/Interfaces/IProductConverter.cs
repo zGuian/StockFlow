@@ -10,5 +10,6 @@ namespace FlowStockManager.Application.Converters.Interfaces
         ProductDto ToDto(Product product);
         Product CreateProduct(CreateProductRequest productRequest, string supplierId);
         Product ToEntity(UpdateProductRequest productRequest);
+        Product ToEntity(ConsumeProductRequest productRequest);
     }
 }

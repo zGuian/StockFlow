@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowStockManager.Infra.Cros
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowStockManager.Infra.CrossCutting.IoC", "FlowStockManager.Infra.CrossCutting.IoC\FlowStockManager.Infra.CrossCutting.IoC.csproj", "{5833C0B9-6320-45A6-92E4-A91CBB506730}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowStockManager.Desktop", "FlowStockManager.Desktop\FlowStockManager.Desktop.csproj", "{D51AAE94-82C6-4DE2-9153-58823066DFDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{5833C0B9-6320-45A6-92E4-A91CBB506730}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5833C0B9-6320-45A6-92E4-A91CBB506730}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5833C0B9-6320-45A6-92E4-A91CBB506730}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D51AAE94-82C6-4DE2-9153-58823066DFDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D51AAE94-82C6-4DE2-9153-58823066DFDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D51AAE94-82C6-4DE2-9153-58823066DFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D51AAE94-82C6-4DE2-9153-58823066DFDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,5 +84,9 @@ Global
 		{193A2069-014F-4441-9FE9-222C87B953F3} = {22029CB3-1DF0-421A-B948-1F96F8A00AF9}
 		{3446AF80-9A52-48A7-8F36-9ABEA7D5718D} = {193A2069-014F-4441-9FE9-222C87B953F3}
 		{5833C0B9-6320-45A6-92E4-A91CBB506730} = {193A2069-014F-4441-9FE9-222C87B953F3}
+		{D51AAE94-82C6-4DE2-9153-58823066DFDA} = {EB31FCB7-FFDC-4C8E-B8B1-3C901E19AF73}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0CE9B32-3C5C-43EA-8260-9CFBCD012E9E}
 	EndGlobalSection
 EndGlobal

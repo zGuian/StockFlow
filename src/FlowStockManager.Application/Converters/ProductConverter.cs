@@ -25,6 +25,11 @@ namespace FlowStockManager.Application.Converters
             return _mapper.Map<Product>(productRequest);
         }
 
+        public Product ToEntity(ConsumeProductRequest productRequest)
+        {
+            return _mapper.Map<Product>(productRequest);
+        }
+
         public IEnumerable<ProductDto> ToIEnumerableDto(IEnumerable<Product> products)
         {
             return _mapper.Map<IEnumerable<ProductDto>>(products);
