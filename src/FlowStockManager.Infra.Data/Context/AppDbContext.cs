@@ -12,6 +12,7 @@ namespace FlowStockManager.Infra.Data.Context
 
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Supplier> Suppliers { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
