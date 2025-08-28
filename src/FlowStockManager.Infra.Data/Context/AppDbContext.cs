@@ -18,6 +18,7 @@ namespace FlowStockManager.Infra.Data.Context
         {
             modelBuilder.ApplyConfiguration(new ProductMap());
             modelBuilder.ApplyConfiguration(new SupplierMap());
+            modelBuilder.ApplyConfiguration(new UserMap());
         }
     }
 }
