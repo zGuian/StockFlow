@@ -7,7 +7,7 @@ using FlowStockManager.Domain.Requests.UserRequests;
 
 namespace FlowStockManager.Application.UserApp.Command
 {
-    internal class UpdateUserCommand : IUpdateUserCommand, ICommandBase<UpdateUserRequest, bool>
+    public class UpdateUserCommand : IUpdateUserCommand, ICommandBase<UpdateUserRequest, bool>
     {
         private readonly IUserCommandRepository _commandRepository;
         private readonly IUserConverter _converter;
